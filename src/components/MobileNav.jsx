@@ -1,14 +1,23 @@
-import { BookOpen, BarChart2, Globe } from 'lucide-react';
+import { BookOpen, BarChart2, Globe, User } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useLanguage } from '../contexts/LanguageContext';
 
-export default function MobileNav({ activeView, setActiveView }) {
+export default function MobileNav({ activeView, setActiveView, user, profile, onProfileClick }) {
   const { t } = useLanguage();
-  const tabs = [
+  const isAnonymous = user?.is_anonymous;
+  const username = user?.email?.split('@')[0];
+
+  const baseTabs = [
     { id: 'album', label: t('common.album'), icon: BookOpen },
     { id: 'analytics', label: t('common.progress'), icon: BarChart2 },
     { id: 'about', label: 'Sobre', icon: Globe },
   ];
+
+  const profileTab = user && !isAnonymous
+    ? [{ id: 'profile', label: username, icon: User, action: onProfileClick }]
+    : [];
+
+  const tabs = [...baseTabs, ...profileTab];
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 bg-[var(--nav-bg)] border-t border-[var(--card-border)] z-50 md:hidden pb-safe backdrop-blur-md">
@@ -16,11 +25,12 @@ export default function MobileNav({ activeView, setActiveView }) {
         {tabs.map((tab) => {
           const Icon = tab.icon;
           const isActive = activeView === tab.id;
+          const handleClick = tab.action ? tab.action : () => setActiveView(tab.id);
 
           return (
             <button
               key={tab.id}
-              onClick={() => setActiveView(tab.id)}
+              onClick={handleClick}
               className="flex flex-col items-center justify-center flex-1 h-full relative"
             >
               <div
@@ -28,10 +38,10 @@ export default function MobileNav({ activeView, setActiveView }) {
                   isActive ? 'text-[var(--accent)]' : 'text-[var(--text-secondary)]'
                 }`}
               >
-                <Icon size={24} />
+                <Icon size={22} />
               </div>
               <span
-                className={`text-[10px] mt-1 font-medium transition-colors duration-200 ${
+                className={`text-[10px] mt-1 font-medium transition-colors duration-200 max-w-[60px] truncate ${
                   isActive ? 'text-[var(--text-primary)]' : 'text-[var(--text-secondary)]'
                 }`}
               >

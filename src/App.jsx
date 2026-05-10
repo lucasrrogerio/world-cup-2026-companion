@@ -196,7 +196,7 @@ function App() {
         </motion.div>
       )}
       
-      <main className={`flex-1 ${isMobile ? 'pb-20' : ''}`}>
+      <main className="flex-1 pb-20 md:pb-0">
         <div className="container mx-auto px-4 pt-8">
           <AnimatePresence mode="wait">
             {!user ? (
@@ -291,11 +291,18 @@ function App() {
             )}
           </AnimatePresence>
           
-          {user && isMobile && (
-            <MobileNav activeView={activeView} setActiveView={setActiveView} />
-          )}
         </div>
       </main>
+
+      {user && (
+        <MobileNav
+          activeView={activeView}
+          setActiveView={setActiveView}
+          user={user}
+          profile={profile}
+          onProfileClick={() => setShowOnboarding(true)}
+        />
+      )}
 
       {activeView !== 'album' && (
         <Footer onSupportClick={() => setIsSupportModalOpen(true)} />

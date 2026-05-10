@@ -1,8 +1,4 @@
-# Mobile Navigation
-
-Purpose: Prover uma navegação ergonômica e intuitiva para os usuários, permitindo a alternância rápida entre as principais visões do aplicativo (Dashboard e Álbum) em qualquer tamanho de tela.
-
-## Requirements
+## MODIFIED Requirements
 
 ### Requirement: Bottom Navigation Bar
 O sistema deve prover navegação para alternância de visões em todos os dispositivos, incluindo acesso ao perfil do usuário autenticado em mobile.
@@ -32,14 +28,3 @@ O sistema deve prover navegação para alternância de visões em todos os dispo
 - **WHEN** the screen width is >= 640px (sm breakpoint)
 - **AND** the user is authenticated and not anonymous
 - **THEN** the profile button in the Header SHALL be visible (not hidden).
-
-### Requirement: Active State Highlighting
-A visão ativa deve ser claramente destacada tanto no menu mobile quanto no menu desktop.
-
-#### Scenario: Visual feedback for active tab (Mobile)
-- **WHEN** the user is on the "Dashboard"
-- **THEN** the Dashboard icon/label in the bottom nav is highlighted with the primary theme color (#4B0082).
-
-#### Scenario: Visual feedback on Desktop
-- **WHEN** a visão ativa é "album"
-- **THEN** o botão "Álbum" no cabeçalho deve exibir um destaque visual (cor primária #4B0082 ou borda inferior).

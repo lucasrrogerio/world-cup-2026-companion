@@ -170,7 +170,7 @@ export default function Header({
               {!isAnonymous && (
                 <button
                   onClick={onProfileClick}
-                  className="hidden lg:flex flex-col items-end gap-0.5 px-3 py-1.5 rounded-xl hover:bg-white/5 transition-all text-right group"
+                  className="hidden sm:flex flex-col items-end gap-0.5 px-3 py-1.5 rounded-xl hover:bg-white/5 transition-all text-right group"
                 >
                   <div className="flex items-center gap-2 text-sm text-[var(--text-primary)] font-bold group-hover:text-[var(--accent)] transition-colors">
                     <User size={14} />

@@ -31,7 +31,7 @@ O sistema deve permitir que um usuário anônimo converta sua conta para uma per
 
 #### Scenario: Vincular Conta Google
 - **GIVEN** um usuário logado anonimamente com progresso no álbum
-- **WHEN** o usuário seleciona "Salvar com Google"
+- **WHEN** o usuário seleciona "Salvar com Google" no modo Vincular
 - **THEN** a conta anônima deve ser vinculada à identidade do Google.
 - **AND** o progresso da coleção e o perfil (cidade/estado) devem ser mantidos.
 
@@ -40,3 +40,30 @@ O sistema deve permitir que um usuário anônimo converta sua conta para uma per
 - **WHEN** o usuário fornece um e-mail e senha para salvar o progresso
 - **THEN** a conta anônima deve ser atualizada para uma conta permanente.
 - **AND** o e-mail deve ser sincronizado automaticamente para o perfil do usuário no banco de dados.
+
+#### Scenario: Modal com dois modos para usuário anônimo
+- **GIVEN** um usuário logado anonimamente
+- **WHEN** o modal de autenticação é aberto
+- **THEN** o modal DEVE exibir dois modos selecionáveis via abas:
+  - **"Vincular conta"** (padrão, destaque verde): executa `upgradeToEmailAccount`, mantendo todos os dados locais mesclados à conta.
+  - **"Já tenho conta"** (destaque âmbar): executa `signInWithEmail` normal, sem migração de dados.
+
+#### Scenario: Banner de aviso no modo Vincular
+- **WHEN** o modo "Vincular conta" está selecionado
+- **THEN** um banner verde SHALL ser exibido informando que a coleção atual é mesclada à conta e os dados são mantidos.
+
+#### Scenario: Banner de aviso no modo Entrar
+- **WHEN** o modo "Já tenho conta" está selecionado
+- **THEN** um banner âmbar SHALL ser exibido alertando que o progresso feito como visitante ficará apenas neste aparelho e não será unido à conta existente.
+
+#### Scenario: Botão Google adapta-se ao modo selecionado
+- **WHEN** o usuário anônimo está no modo "Vincular conta"
+- **THEN** o botão Google SHALL executar `setPendingMigration` antes de autenticar (para mesclar dados).
+- **WHEN** o usuário anônimo está no modo "Já tenho conta"
+- **THEN** o botão Google SHALL autenticar sem salvar migration (dados locais não são migrados).
+
+#### Scenario: E-mail já cadastrado no modo Vincular
+- **GIVEN** um usuário anônimo no modo "Vincular conta"
+- **WHEN** o e-mail fornecido já possui uma conta existente
+- **THEN** o sistema SHALL exibir mensagem orientando o usuário a usar o modo "Entrar em conta existente", com aviso sobre a não migração dos dados.
+
