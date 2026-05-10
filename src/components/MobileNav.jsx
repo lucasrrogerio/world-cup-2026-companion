@@ -1,4 +1,4 @@
-import { BookOpen, BarChart2 } from 'lucide-react';
+import { BookOpen, BarChart2, Globe } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useLanguage } from '../contexts/LanguageContext';
 
@@ -7,6 +7,7 @@ export default function MobileNav({ activeView, setActiveView }) {
   const tabs = [
     { id: 'album', label: t('common.album'), icon: BookOpen },
     { id: 'analytics', label: t('common.progress'), icon: BarChart2 },
+    { id: 'about', label: 'Sobre', icon: Globe },
   ];
 
   return (
