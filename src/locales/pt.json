@@ -137,6 +137,7 @@
     "guest_benefit_title": "Por que entrar?",
     "guest_benefit_sync": "✓ Sincronização em nuvem (segurança)",
     "guest_benefit_insights": "✓ Ver trocas na sua região",
-    "alert_register": "Cadastro realizado! Verifique seu e-mail se a confirmação estiver ativa."
+    "alert_register": "Cadastro realizado! Verifique seu e-mail se a confirmação estiver ativa.",
+    "google_login": "Entrar com Google"
   }
 }

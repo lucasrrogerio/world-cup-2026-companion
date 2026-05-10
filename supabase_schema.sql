@@ -1,7 +1,7 @@
 -- Create Profiles table
 CREATE TABLE IF NOT EXISTS public.profiles (
   id UUID REFERENCES auth.users(id) PRIMARY KEY,
-  email TEXT NOT NULL,
+  email TEXT, -- Nullable to support Anonymous Auth
   city TEXT,
   state TEXT,
   last_seen TIMESTAMP WITH TIME ZONE DEFAULT NOW()
@@ -13,6 +13,10 @@ ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Users can view their own profile" 
   ON public.profiles FOR SELECT 
   USING (auth.uid() = id);
+
+CREATE POLICY "Users can view other users' city" 
+  ON public.profiles FOR SELECT 
+  USING (true);
 
 CREATE POLICY "Users can update their own profile" 
   ON public.profiles FOR UPDATE 
@@ -38,6 +42,10 @@ ALTER TABLE public.collections ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Users can view their own collection" 
   ON public.collections FOR SELECT 
   USING (auth.uid() = user_id);
+
+CREATE POLICY "Users can view everyone's duplicates" 
+  ON public.collections FOR SELECT 
+  USING (count > 1);
 
 CREATE POLICY "Users can update their own collection" 
   ON public.collections FOR UPDATE 

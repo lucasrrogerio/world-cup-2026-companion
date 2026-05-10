@@ -23,6 +23,51 @@ export const signInWithEmail = async (email, password) => {
   return data;
 };
 
+export const signInWithGoogle = async () => {
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: 'google',
+    options: {
+      redirectTo: window.location.origin,
+      queryParams: {
+        access_type: 'offline',
+        prompt: 'consent',
+      },
+    },
+  });
+  if (error) throw error;
+  return data;
+};
+
+export const signInAnonymously = async (captchaToken) => {
+  const { data, error } = await supabase.auth.signInAnonymously({
+    options: {
+      captchaToken,
+    },
+  });
+  if (error) throw error;
+  return data;
+};
+
+export const linkGoogleIdentity = async () => {
+  const { data, error } = await supabase.auth.linkIdentity({
+    provider: 'google',
+    options: {
+      redirectTo: window.location.origin,
+    }
+  });
+  if (error) throw error;
+  return data;
+};
+
+export const upgradeToEmailAccount = async (email, password) => {
+  const { data, error } = await supabase.auth.updateUser({
+    email,
+    password,
+  });
+  if (error) throw error;
+  return data;
+};
+
 export const signOut = async () => {
   const { error } = await supabase.auth.signOut();
   if (error) throw error;

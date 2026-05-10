@@ -167,6 +167,7 @@ export function useCollection(user) {
 
       const updated = prev.map(s => s.id === id ? { ...s, count: newCount, pastedAt: updatedPastedAt } : s);
       
+      // Always save to localStorage if not logged in (truly local mode)
       if (!user) {
         const saveState = updated.reduce((acc, s) => {
           if (s.count > 0) acc[s.id] = { count: s.count, pastedAt: s.pastedAt };
@@ -178,10 +179,8 @@ export function useCollection(user) {
       return updated;
     });
 
-    // 2. Queue for server sync
+    // 2. Queue for server sync (works for both real and anonymous users)
     if (user) {
-      // Note: updatedPastedAt might be null if we haven't calculated it yet in the state updater closure
-      // but we need it here for the queue. We'll re-calculate it or use the value from above.
       syncQueue.current[id] = { count: newCount, pastedAt: updatedPastedAt };
       
       if (syncTimeout.current) clearTimeout(syncTimeout.current);

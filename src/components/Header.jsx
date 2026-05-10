@@ -23,6 +23,7 @@ export default function Header({
 }) {
   const { language, setLanguage, t } = useLanguage();
   const [showLangMenu, setShowLangMenu] = useState(false);
+  const isAnonymous = user?.is_anonymous;
 
   return (
     <header className="bg-[var(--nav-bg)] text-[var(--text-primary)] p-4 border-b border-[var(--accent)] sticky top-0 z-50 backdrop-blur-md">
@@ -67,12 +68,15 @@ export default function Header({
                   )}
                 </AnimatePresence>
               </div>
-            ) : (
+            ) : null}
+            
+            {!user && (
               <div className="flex items-center gap-2 px-3 py-1 bg-[var(--gold)]/10 rounded-full border border-[var(--gold)]/20">
                 <Database className="text-[var(--gold)]" size={14} />
-                <span className="text-[10px] text-[var(--gold)] font-bold uppercase tracking-widest hidden xs:block">{t('common.local_only') || 'Local'}</span>
+                <span className="text-[10px] text-[var(--gold)] font-bold uppercase tracking-widest hidden xs:block">{t('common.local_only') || 'Offline'}</span>
               </div>
             )}
+
           </div>
 
           {user && (
@@ -95,6 +99,15 @@ export default function Header({
               >
                 <BarChart2 size={16} />
                 {t('common.progress')}
+              </button>
+              <button
+                onClick={() => setActiveView('about')}
+                className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-all ${activeView === 'about'
+                    ? 'bg-[var(--accent)] text-white shadow-lg'
+                    : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-color)]'
+                  }`}
+              >
+                Sobre
               </button>
             </nav>
           )}
@@ -152,18 +165,31 @@ export default function Header({
 
           {user ? (
             <div className="flex items-center gap-2 md:gap-3">
-              <span className="hidden lg:flex items-center gap-2 text-sm text-[var(--text-secondary)]">
-                <User size={16} />
-                {user.email}
-              </span>
-              <button
-                onClick={onLogout}
-                className="flex items-center gap-2 text-sm hover:text-red-400 transition-colors bg-[var(--card-bg)] px-2 py-2 sm:px-3 rounded-xl border border-[var(--card-border)] shadow-md"
-                aria-label={t('common.logout')}
-              >
-                <LogOut size={16} />
-                <span className="hidden sm:inline">{t('common.logout')}</span>
-              </button>
+              {!isAnonymous && (
+                <span className="hidden lg:flex items-center gap-2 text-sm text-[var(--text-secondary)]">
+                  <User size={16} />
+                  {user.email}
+                </span>
+              )}
+              
+              {isAnonymous ? (
+                <button
+                  onClick={onLoginClick}
+                  className="flex items-center gap-2 bg-gradient-to-r from-purple-600 to-[var(--accent)] text-white px-3 py-2 rounded-xl text-sm font-bold shadow-lg transition-all active:scale-95"
+                >
+                  <Cloud size={16} />
+                  <span className="hidden sm:inline">Vincular E-mail</span>
+                </button>
+              ) : (
+                <button
+                  onClick={onLogout}
+                  className="flex items-center gap-2 text-sm hover:text-red-400 transition-colors bg-[var(--card-bg)] px-2 py-2 sm:px-3 rounded-xl border border-[var(--card-border)] shadow-md"
+                  aria-label={t('common.logout')}
+                >
+                  <LogOut size={16} />
+                  <span className="hidden sm:inline">{t('common.logout')}</span>
+                </button>
+              )}
             </div>
           ) : (
             <button

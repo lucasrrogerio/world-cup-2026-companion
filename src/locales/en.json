@@ -137,6 +137,7 @@
     "guest_benefit_title": "Why log in?",
     "guest_benefit_sync": "✓ Cloud Sync (Safe data)",
     "guest_benefit_insights": "✓ See swaps in your area",
-    "alert_register": "Registration complete! Check your email if confirmation is active."
+    "alert_register": "Registration complete! Check your email if confirmation is active.",
+    "google_login": "Login with Google"
   }
 }

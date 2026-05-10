@@ -5,6 +5,7 @@ import Navigation from './components/Navigation';
 import Dashboard from './components/Dashboard';
 import StickerGrid from './components/StickerGrid';
 import ProgressChart from './components/ProgressChart';
+import AboutView from './components/AboutView';
 import Onboarding from './components/Onboarding';
 import MobileNav from './components/MobileNav';
 import AuthModal from './components/AuthModal';
@@ -76,7 +77,7 @@ function App() {
       const currentUser = session?.user ?? null;
       setUser(currentUser);
       if (currentUser) {
-        checkProfile(currentUser.id);
+        checkProfile(currentUser.id, currentUser);
         if (activeView === 'dashboard') setActiveView('album');
       }
     });
@@ -85,7 +86,7 @@ function App() {
       const currentUser = session?.user ?? null;
       setUser(currentUser);
       if (currentUser) {
-        checkProfile(currentUser.id);
+        checkProfile(currentUser.id, currentUser);
         setActiveView('album');
       } else {
         setProfile(null);
@@ -99,10 +100,18 @@ function App() {
     };
   }, []);
 
-  const checkProfile = async (userId) => {
+  const checkProfile = async (userId, currentUser) => {
     try {
       const data = await getProfile(userId);
       setProfile(data);
+      
+      // Se o usuário tem e-mail (fez upgrade) mas o perfil não tem, sincroniza
+      if (data && !data.email && currentUser?.email) {
+        const updatedProfile = { ...data, email: currentUser.email };
+        await updateProfile(updatedProfile);
+        setProfile(updatedProfile);
+      }
+
       if (!data || !data.city) {
         setShowOnboarding(true);
       }
@@ -149,12 +158,10 @@ function App() {
       <AuthModal 
         isOpen={isAuthModalOpen} 
         onClose={() => setIsAuthModalOpen(false)}
-        onAuthSuccess={(mockUser) => {
-          if (mockUser) {
-            setUser(mockUser);
-            setProfile({ id: mockUser.id, email: mockUser.email, city: 'Recife', state: 'PE' });
-            setActiveView('album');
-          }
+        user={user}
+        onAuthSuccess={() => {
+          // A sessão é capturada automaticamente pelo onAuthStateChange do Supabase
+          setActiveView('album');
         }}
       />
       
@@ -217,7 +224,7 @@ function App() {
                       </div>
                     </div>
                   </motion.div>
-                ) : (
+                ) : activeView === 'analytics' ? (
                   <motion.div
                     key="analytics"
                     initial={{ opacity: 0, y: 20 }}
@@ -233,6 +240,16 @@ function App() {
                       cityDuplicates={cityDuplicates} 
                     />
                   </motion.div>
+                ) : (
+                  <motion.div
+                    key="about"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <AboutView user={user} />
+                  </motion.div>
                 )}
               </motion.div>
             )}
@@ -244,7 +261,7 @@ function App() {
         </div>
       </main>
 
-      <Footer />
+      {activeView !== 'album' && <Footer />}
     </div>
   );
 }

@@ -48,7 +48,7 @@ O sistema deve garantir que os dados da coleção sejam isolados por usuário e 
 #### Scenario: User Logout
 - **GIVEN** um usuário logado com figurinhas marcadas
 - **WHEN** o usuário realiza logout
-- **THEN** a interface deve ser resetada imediatamente para o estado inicial (`INITIAL_STICKERS`) ou carregar os dados do `localStorage` (modo visitante).
+- **THEN** a interface deve ser resetada imediatamente para o estado inicial (`INITIAL_STICKERS`) ou carregar os dados do `localStorage` (modo offline/não-logado).
 - **AND** nenhuma figurinha do usuário anterior deve permanecer visível.
 
 ### Requirement: Navigation Bar
@@ -75,7 +75,12 @@ O sistema deve prover uma navegação fluida e intuitiva entre os grupos de figu
 - **THEN** o sistema deve atualizar automaticamente o destaque na barra de navegação/sidebar para o grupo atualmente visível.
 
 ### Requirement: Inventory Sorting
-...
+O sistema deve permitir ordenar as figurinhas por diferentes critérios.
+
+#### Scenario: Toggle Sort Mode
+- **WHEN** o usuário altera o modo de ordenação entre "Grupo" e "Alfabética"
+- **THEN** a visualização deve ser atualizada para refletir a nova ordem.
+
 ### Requirement: Inventory Filtering
 O sistema deve permitir filtrar a visualização por estado de coleção (Todas, Faltando, Repetidas).
 
@@ -100,7 +105,7 @@ O sistema deve permitir filtrar a visualização por estado de coleção (Todas,
 O sistema deve garantir a persistência eficiente dos dados.
 
 #### Scenario: Debounced Batch Sync
-- **GIVEN** que o usuário está logado
+- **GIVEN** que o usuário está logado (identificado ou anônimo)
 - **WHEN** o usuário altera a quantidade de múltiplas figurinhas rapidamente
 - **THEN** o sistema deve atualizar o estado local instantaneamente.
 - **AND** aguardar 2 segundos de inatividade antes de enviar os dados ao servidor.
@@ -125,4 +130,3 @@ The inventory system must record the exact time a sticker is first marked as pas
 - **GIVEN** a sticker with count 1
 - **WHEN** the user decrements the count to 0
 - **THEN** the `pasted_at` timestamp should be cleared/removed.
-
