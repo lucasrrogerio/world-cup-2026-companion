@@ -1,33 +1,35 @@
 @import "tailwindcss";
 
-
-
 :root {
-  --bg-color: #0F0F0F;
-  --text-primary: #ffffff;
-  --text-secondary: #9CA3AF;
-  --card-bg: #1A1A1A;
-  --card-border: #333333;
-  --nav-bg: rgba(26, 26, 26, 0.8);
-  --accent: #4B0082;
-  --gold: #D4AF37;
-  --card-owned-bg: #2A2A2A;
-  --chart-grid: rgba(255, 255, 255, 0.1);
-  --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+  --bg-color: #020617; /* Deep Slate Navy - softer than pure navy */
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --card-bg: rgba(15, 23, 42, 0.6);
+  --card-border: rgba(56, 189, 248, 0.1);
+  --nav-bg: rgba(2, 6, 23, 0.8);
+  --accent: #38bdf8; /* Softer Sky Blue as main accent */
+  --brand-blue: #0076ce;
+  --wc-lime: #bef264; /* Softer, more muted Lime */
+  --gold: #fde047;
+  --card-owned-bg: rgba(56, 189, 248, 0.05);
+  --chart-grid: rgba(255, 255, 255, 0.03);
+  --card-shadow: 0 10px 40px -5px rgba(0, 0, 0, 0.5);
 }
 
 [data-theme="light"] {
-  --bg-color: #F1F5F9;
-  --text-primary: #0F172A;
-  --text-secondary: #64748B;
-  --card-bg: #FFFFFF;
-  --card-border: #E2E8F0;
-  --nav-bg: rgba(255, 255, 255, 0.9);
-  --accent: #4F46E5;
-  --gold: #D97706;
-  --card-owned-bg: #FFFFFF;
+  --bg-color: #f8fafc;
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --card-bg: #ffffff;
+  --card-border: rgba(0, 118, 206, 0.15);
+  --nav-bg: rgba(255, 255, 255, 0.95);
+  --accent: #0076ce;
+  --brand-blue: #0076ce;
+  --wc-lime: #16a34a;
+  --gold: #0076ce;
+  --card-owned-bg: rgba(0, 118, 206, 0.08);
   --chart-grid: rgba(0, 0, 0, 0.05);
-  --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  --card-shadow: 0 10px 40px -5px rgba(0, 5, 26, 0.1);
 }
 
 @layer base {

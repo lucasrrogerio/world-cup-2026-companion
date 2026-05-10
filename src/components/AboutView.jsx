@@ -32,7 +32,7 @@ export default function AboutView({ user }) {
       {/* Header Section */}
       <section className="text-center space-y-4 py-8">
         <motion.h1 
-          className="text-4xl md:text-6xl font-black bg-gradient-to-r from-[var(--gold)] via-[var(--accent)] to-[var(--gold)] bg-clip-text text-transparent"
+          className="text-4xl md:text-6xl font-black text-[var(--text-primary)]"
           variants={itemVariants}
         >
           WC Companion 2026
@@ -51,8 +51,8 @@ export default function AboutView({ user }) {
           className="bg-[var(--card-bg)] p-6 rounded-3xl border border-[var(--card-border)] hover:border-[var(--accent)] transition-all group"
           variants={itemVariants}
         >
-          <div className="w-12 h-12 bg-purple-500/10 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-            <Cloud className="text-purple-400" />
+          <div className="w-12 h-12 bg-[var(--accent)]/10 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+            <Cloud className="text-[var(--accent)]" />
           </div>
           <h3 className="text-lg font-bold mb-2">Tudo na Nuvem</h3>
           <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
@@ -64,8 +64,8 @@ export default function AboutView({ user }) {
           className="bg-[var(--card-bg)] p-6 rounded-3xl border border-[var(--card-border)] hover:border-[var(--accent)] transition-all group"
           variants={itemVariants}
         >
-          <div className="w-12 h-12 bg-blue-500/10 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-            <Shield className="text-blue-400" />
+          <div className="w-12 h-12 bg-[var(--brand-blue)]/10 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+            <Shield className="text-[var(--brand-blue)]" />
           </div>
           <h3 className="text-lg font-bold mb-2">Privacidade e Controle</h3>
           <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
@@ -77,8 +77,8 @@ export default function AboutView({ user }) {
           className="bg-[var(--card-bg)] p-6 rounded-3xl border border-[var(--card-border)] hover:border-[var(--accent)] transition-all group"
           variants={itemVariants}
         >
-          <div className="w-12 h-12 bg-[var(--gold)]/10 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-            <Zap className="text-[var(--gold)]" />
+          <div className="w-12 h-12 bg-[var(--accent)]/10 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+            <Zap className="text-[var(--accent)]" />
           </div>
           <h3 className="text-lg font-bold mb-2">Simples e Rápido</h3>
           <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
@@ -98,8 +98,8 @@ export default function AboutView({ user }) {
         
         <div className="grid md:grid-cols-2 gap-8">
           <motion.div className="flex gap-4" variants={itemVariants}>
-            <div className="w-10 h-10 rounded-xl bg-[var(--gold)]/10 flex items-center justify-center shrink-0">
-              <Zap className="text-[var(--gold)]" size={20} />
+            <div className="w-10 h-10 rounded-xl bg-[var(--accent)]/10 flex items-center justify-center shrink-0">
+              <Zap className="text-[var(--accent)]" size={20} />
             </div>
             <div className="space-y-1">
               <h4 className="font-bold">Marcar Figurinhas</h4>
@@ -108,8 +108,8 @@ export default function AboutView({ user }) {
           </motion.div>
 
           <motion.div className="flex gap-4" variants={itemVariants}>
-            <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center shrink-0">
-              <Globe size={20} className="text-blue-400" />
+            <div className="w-10 h-10 rounded-xl bg-[var(--brand-blue)]/10 flex items-center justify-center shrink-0">
+              <Globe size={20} className="text-[var(--brand-blue)]" />
             </div>
             <div className="space-y-1">
               <h4 className="font-bold">Navegação Rápida</h4>
@@ -118,8 +118,8 @@ export default function AboutView({ user }) {
           </motion.div>
 
           <motion.div className="flex gap-4" variants={itemVariants}>
-            <div className="w-10 h-10 rounded-xl bg-purple-500/10 flex items-center justify-center shrink-0">
-              <Database size={20} className="text-purple-400" />
+            <div className="w-10 h-10 rounded-xl bg-[var(--accent)]/10 flex items-center justify-center shrink-0">
+              <Database size={20} className="text-[var(--accent)]" />
             </div>
             <div className="space-y-1">
               <h4 className="font-bold">Acompanhe seu Álbum</h4>
@@ -128,8 +128,8 @@ export default function AboutView({ user }) {
           </motion.div>
 
           <motion.div className="flex gap-4" variants={itemVariants}>
-            <div className="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center shrink-0">
-              <Shield size={20} className="text-emerald-400" />
+            <div className="w-10 h-10 rounded-xl bg-[var(--brand-blue)]/10 flex items-center justify-center shrink-0">
+              <Shield size={20} className="text-[var(--brand-blue)]" />
             </div>
             <div className="space-y-1">
               <h4 className="font-bold">Filtros Inteligentes</h4>

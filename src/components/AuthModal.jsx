@@ -4,8 +4,9 @@ import { X, Cloud } from 'lucide-react';
 import { signInWithEmail, signUpWithEmail, signInWithGoogle, signInAnonymously, linkGoogleIdentity, upgradeToEmailAccount } from '../services/supabase';
 import { useLanguage } from '../contexts/LanguageContext';
 import { Turnstile } from '@marsidev/react-turnstile';
+import { setPendingMigration } from '../utils/migration';
 
-export default function AuthModal({ isOpen, onClose, onAuthSuccess, user }) {
+export default function AuthModal({ isOpen, onClose, onAuthSuccess, user, stickers }) {
   const { t } = useLanguage();
   const [isRegistering, setIsRegistering] = useState(false);
   const [email, setEmail] = useState('');
@@ -33,7 +34,13 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess, user }) {
       }
       onClose();
     } catch (err) {
-      setError(err.message);
+      if (isAnonymous && (err.message?.includes('already registered') || err.message?.includes('already exists'))) {
+        setPendingMigration(stickers);
+        setIsRegistering(false);
+        setError("Este e-mail já está em uso. Faça login para resgatar seu progresso nesta conta.");
+      } else {
+        setError(err.message);
+      }
     } finally {
       setIsLoading(false);
     }
@@ -43,11 +50,11 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess, user }) {
     setError(null);
     setIsLoading(true);
     try {
+      // Always save migration data before Google Login if anonymous
       if (isAnonymous) {
-        await linkGoogleIdentity();
-      } else {
-        await signInWithGoogle();
+        setPendingMigration(stickers);
       }
+      await signInWithGoogle();
     } catch (err) {
       setError(err.message);
       setIsLoading(false);
@@ -104,7 +111,7 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess, user }) {
               <X size={20} />
             </button>
 
-            <h2 className="text-3xl font-black mb-2 text-center bg-gradient-to-r from-[var(--gold)] to-[var(--text-secondary)] bg-clip-text text-transparent">
+            <h2 className="text-3xl font-black mb-2 text-center text-[var(--text-primary)]">
               {isAnonymous ? "Vincular Conta" : (isRegistering ? t('auth.title_register') : t('auth.title_login'))}
             </h2>
             
@@ -113,21 +120,21 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess, user }) {
                 <p className="text-[11px] text-[var(--text-secondary)] mb-6 text-center leading-relaxed">
                   Sua coleção já está sendo salva! Vincule um e-mail para ter backup em nuvem e acessar de outros aparelhos.
                 </p>
-                <div className="bg-purple-500/10 border border-purple-500/20 rounded-2xl p-4 mb-6">
-                  <h3 className="text-purple-400 text-xs font-black uppercase tracking-widest mb-3 flex items-center gap-2">
+                <div className="bg-[var(--accent)]/10 border border-[var(--accent)]/20 rounded-2xl p-4 mb-6">
+                  <h3 className="text-[var(--accent)] text-xs font-black uppercase tracking-widest mb-3 flex items-center gap-2">
                     <Cloud size={14} /> Por que vincular?
                   </h3>
                   <ul className="space-y-2">
                     <li className="flex items-start gap-2 text-[11px] text-[var(--text-secondary)]">
-                      <div className="mt-1 w-1 h-1 rounded-full bg-purple-400 shrink-0" />
+                      <div className="mt-1 w-1 h-1 rounded-full bg-[var(--accent)] shrink-0" />
                       <span><b>Segurança:</b> Não perca seus dados se limpar o histórico do navegador.</span>
                     </li>
                     <li className="flex items-start gap-2 text-[11px] text-[var(--text-secondary)]">
-                      <div className="mt-1 w-1 h-1 rounded-full bg-purple-400 shrink-0" />
+                      <div className="mt-1 w-1 h-1 rounded-full bg-[var(--accent)] shrink-0" />
                       <span><b>Multi-dispositivo:</b> Acesse sua coleção de qualquer celular ou PC.</span>
                     </li>
                     <li className="flex items-start gap-2 text-[11px] text-[var(--text-secondary)]">
-                      <div className="mt-1 w-1 h-1 rounded-full bg-purple-400 shrink-0" />
+                      <div className="mt-1 w-1 h-1 rounded-full bg-[var(--accent)] shrink-0" />
                       <span><b>Trocas:</b> Participe da comunidade de trocas da sua região.</span>
                     </li>
                   </ul>
@@ -166,7 +173,7 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess, user }) {
               <button 
                 type="submit"
                 disabled={isLoading}
-                className="w-full bg-[var(--accent)] hover:bg-purple-800 text-white font-bold py-3 rounded-xl transition-all shadow-[0_0_20px_rgba(75,0,130,0.4)] disabled:opacity-50"
+                className="w-full bg-[var(--accent)] hover:opacity-90 text-[var(--bg-color)] font-bold py-3 rounded-xl transition-all shadow-lg disabled:opacity-50"
               >
                 {isLoading ? t('auth.loading') : (isAnonymous ? "Confirmar E-mail" : (isRegistering ? t('auth.submit_register') : t('auth.submit_login')))}
               </button>
@@ -178,7 +185,7 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess, user }) {
                 {isRegistering ? t('auth.switch_login_prompt') : t('auth.switch_register_prompt')} 
                 <button 
                   onClick={() => setIsRegistering(!isRegistering)}
-                  className="ml-2 text-[var(--gold)] hover:underline font-bold"
+                  className="ml-2 text-[var(--accent)] hover:underline font-bold"
                 >
                   {isRegistering ? t('auth.switch_login_action') : t('auth.switch_register_action')}
                 </button>

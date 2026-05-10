@@ -10,8 +10,8 @@ const GoalCard = ({ icon: Icon, title, description, delay }) => (
     transition={{ delay, duration: 0.5 }}
     className="bg-[var(--card-bg)] p-6 rounded-2xl border border-[var(--card-border)] hover:border-[var(--accent)] transition-all group"
   >
-    <div className="bg-[var(--accent)]/20 p-3 rounded-xl w-fit mb-4 group-hover:bg-[var(--accent)]/40 transition-colors">
-      <Icon className="text-[var(--gold)]" size={24} />
+    <div className="bg-[var(--accent)]/10 p-3 rounded-xl w-fit mb-4 group-hover:bg-[var(--accent)]/20 transition-colors">
+      <Icon className="text-[var(--accent)]" size={24} />
     </div>
     <h3 className="text-lg font-bold text-[var(--text-primary)] mb-2">{title}</h3>
     <p className="text-sm text-[var(--text-secondary)] leading-relaxed">{description}</p>
@@ -29,10 +29,10 @@ export default function Dashboard({ profile, onLoginClick }) {
         animate={{ opacity: 1, y: 0 }}
         className="text-center mb-12"
       >
-        <h1 className="text-4xl md:text-5xl font-black mb-4 bg-gradient-to-r from-[var(--gold)] to-[var(--accent)] bg-clip-text text-transparent">
+        <h1 className="text-4xl md:text-5xl font-black mb-4 text-[var(--text-primary)]">
           {t('dashboard.hero_title')}
         </h1>
-        <p className="text-lg text-[var(--text-secondary)] max-w-2xl mx-auto mb-8">
+        <p className="text-lg text-[var(--text-secondary)] max-w-2xl mx-auto mb-8 font-medium">
           {t('dashboard.hero_subtitle')}
         </p>
         
@@ -41,7 +41,7 @@ export default function Dashboard({ profile, onLoginClick }) {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={onLoginClick}
-            className="bg-[var(--accent)] hover:bg-purple-800 text-white font-black px-8 py-4 rounded-2xl shadow-[0_0_30px_rgba(75,0,130,0.4)] transition-all"
+            className="bg-[var(--accent)] hover:opacity-90 text-[var(--bg-color)] font-black px-10 py-5 rounded-2xl shadow-xl transition-all uppercase tracking-wider"
           >
             {t('dashboard.cta_start')}
           </motion.button>
@@ -55,8 +55,8 @@ export default function Dashboard({ profile, onLoginClick }) {
         transition={{ delay: 0.2 }}
         className="bg-gradient-to-br from-[var(--accent)]/20 to-transparent border border-[var(--accent)]/30 rounded-3xl p-8 mb-12 flex flex-col md:flex-row items-center gap-8 shadow-2xl"
       >
-        <div className="bg-[var(--accent)] p-4 rounded-2xl shadow-[0_0_30px_rgba(75,0,130,0.5)]">
-          <Info className="text-[var(--gold)]" size={40} />
+        <div className="bg-[var(--accent)] p-4 rounded-2xl shadow-lg">
+          <Info className="text-[var(--bg-color)]" size={40} />
         </div>
         <div className="flex-1">
           <h2 className="text-2xl font-bold text-[var(--text-primary)] mb-3">{t('dashboard.mission_title')}</h2>
@@ -87,30 +87,6 @@ export default function Dashboard({ profile, onLoginClick }) {
           delay={0.6}
         />
       </div>
-
-      {profile?.id === 'mock-user-123' && (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="bg-gradient-to-r from-[var(--gold)]/10 to-[var(--accent)]/10 border border-[var(--gold)]/20 rounded-2xl p-6 flex flex-col md:flex-row items-center justify-between gap-6"
-        >
-          <div className="flex items-center gap-4 text-left">
-            <div className="bg-[var(--gold)]/20 p-3 rounded-xl">
-              <CloudOff className="text-[var(--gold)]" size={24} />
-            </div>
-            <div>
-              <h3 className="font-bold text-[var(--text-primary)]">{t('common.local_only')}</h3>
-              <p className="text-sm text-[var(--text-secondary)]">{t('auth.guest_benefit_sync')}</p>
-            </div>
-          </div>
-          <button 
-            onClick={onLoginClick}
-            className="bg-[var(--gold)] hover:bg-yellow-600 text-black font-bold px-6 py-2.5 rounded-xl transition-all whitespace-nowrap"
-          >
-            {t('common.sync_to_cloud')}
-          </button>
-        </motion.div>
-      )}
 
       {profile?.city && (
         <motion.p 

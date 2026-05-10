@@ -17,15 +17,15 @@ const StatCard = memo(({ label, value, color }) => (
   <motion.div 
     initial={{ opacity: 0, scale: 0.9 }}
     animate={{ opacity: 1, scale: 1 }}
-    whileHover={{ y: -5, boxShadow: "0 10px 20px rgba(75,0,130,0.2)" }}
-    className="bg-[var(--card-bg)] rounded-2xl p-4 sm:p-6 border border-[var(--card-border)] flex flex-col items-center justify-center text-center transition-colors hover:border-[var(--accent)]"
+    whileHover={{ y: -5, boxShadow: "0 10px 20px rgba(180,255,0,0.2)" }}
+    className="bg-[var(--card-bg)] rounded-2xl p-4 sm:p-6 border border-[var(--card-border)] flex flex-col items-center justify-center text-center transition-colors hover:border-[var(--wc-lime)]"
   >
     <span className="text-[var(--text-secondary)] text-[10px] sm:text-xs uppercase tracking-wider mb-1">{label}</span>
     <span className={`text-xl sm:text-2xl font-bold ${color}`}>{value}</span>
   </motion.div>
 ));
 
-const ProgressChart = ({ stickers, stats, profile, cityDuplicates }) => {
+const ProgressChart = ({ stickers, stats, user, profile, cityDuplicates }) => {
   const { language, t } = useLanguage();
   const [mode, setMode] = useState('daily');
 
@@ -65,8 +65,8 @@ const ProgressChart = ({ stickers, stats, profile, cityDuplicates }) => {
     return t('progress.tip_none').replace('{{city}}', profile.city);
   }, [profile?.city, percentage, incompleteTeams, cityDuplicates, t]);
 
-  // Hide recommendation for guests (mock-user-123)
-  const showRecommendation = recommendation && profile?.id !== 'mock-user-123';
+  // Hide recommendation for anonymous users (guests)
+  const showRecommendation = recommendation && !user?.is_anonymous;
 
   if (data.length === 0) {
     return (
@@ -82,7 +82,7 @@ const ProgressChart = ({ stickers, stats, profile, cityDuplicates }) => {
       return (
         <div className="bg-[var(--card-bg)] border border-[var(--card-border)] p-3 rounded-lg shadow-2xl backdrop-blur-md">
           <p className="text-xs text-[var(--text-secondary)] mb-1">{label}</p>
-          <p className="text-lg font-bold text-[var(--gold)]">
+          <p className="text-lg font-bold text-[var(--accent)]">
             {payload[0].value} <span className="text-xs text-[var(--text-secondary)] font-normal">{t('progress.stat_owned').toLowerCase()}</span>
           </p>
         </div>
@@ -98,7 +98,7 @@ const ProgressChart = ({ stickers, stats, profile, cityDuplicates }) => {
         <StatCard 
           label={t('progress.stat_progress')} 
           value={`${percentage.toFixed(1)}%`} 
-          color="text-[var(--gold)]" 
+          color="text-[var(--accent)]" 
         />
         <StatCard 
           label={t('progress.stat_owned')} 
@@ -108,7 +108,7 @@ const ProgressChart = ({ stickers, stats, profile, cityDuplicates }) => {
         <StatCard 
           label={t('progress.stat_missing')} 
           value={totalMissing} 
-          color="text-red-400" 
+          color="text-[var(--text-secondary)]" 
         />
         <StatCard 
           label={t('progress.stat_duplicates')} 
@@ -118,12 +118,12 @@ const ProgressChart = ({ stickers, stats, profile, cityDuplicates }) => {
       </div>
 
       {/* Progress Bar */}
-      <div className="bg-[var(--card-bg)] rounded-full h-2 sm:h-3 overflow-hidden border border-[var(--card-border)]">
+      <div className="bg-[var(--card-bg)] rounded-full h-2 sm:h-3 overflow-hidden border border-[var(--card-border)] shadow-[inset_0_2px_4px_rgba(0,0,0,0.3)]">
         <motion.div 
           initial={{ width: 0 }}
           animate={{ width: `${percentage}%` }}
           transition={{ duration: 1, ease: "easeOut" }}
-          className="h-full bg-gradient-to-r from-[var(--accent)] via-[#8A2BE2] to-[var(--gold)]"
+          className="h-full bg-gradient-to-r from-[var(--wc-lime)] to-[var(--accent)]"
         />
       </div>
 
@@ -132,10 +132,10 @@ const ProgressChart = ({ stickers, stats, profile, cityDuplicates }) => {
         <motion.div 
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-gradient-to-r from-[var(--card-bg)] to-[var(--accent)]/20 border border-[var(--accent)]/30 rounded-2xl p-3 sm:p-4 flex items-center gap-3 sm:gap-4 shadow-lg shadow-purple-900/20"
+          className="bg-gradient-to-r from-[var(--card-bg)] to-[var(--accent)]/10 border border-[var(--accent)]/30 rounded-2xl p-3 sm:p-4 flex items-center gap-3 sm:gap-4 shadow-lg"
         >
           <div className="bg-[var(--accent)] p-1.5 sm:p-2 rounded-xl shrink-0">
-            <Sparkles className="text-[var(--gold)]" size={18} />
+            <Sparkles className="text-[var(--wc-lime)]" size={18} />
           </div>
           <div className="flex-1 min-w-0">
             <p className="text-[10px] text-[var(--text-secondary)] uppercase tracking-tighter flex items-center gap-1">
@@ -159,7 +159,7 @@ const ProgressChart = ({ stickers, stats, profile, cityDuplicates }) => {
             onClick={() => setMode('daily')}
             className={`px-4 py-1.5 rounded-lg text-xs font-medium transition-all ${
               mode === 'daily'
-                ? 'bg-[var(--gold)] text-black shadow-lg shadow-yellow-500/20'
+                ? 'bg-[var(--accent)] text-[var(--bg-color)] shadow-lg'
                 : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
             }`}
           >
@@ -169,7 +169,7 @@ const ProgressChart = ({ stickers, stats, profile, cityDuplicates }) => {
             onClick={() => setMode('weekly')}
             className={`px-4 py-1.5 rounded-lg text-xs font-medium transition-all ${
               mode === 'weekly'
-                ? 'bg-[var(--gold)] text-black shadow-lg shadow-yellow-500/20'
+                ? 'bg-[var(--accent)] text-[var(--bg-color)] shadow-lg'
                 : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
             }`}
           >
@@ -186,8 +186,8 @@ const ProgressChart = ({ stickers, stats, profile, cityDuplicates }) => {
           >
             <defs>
               <linearGradient id="colorTotal" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="var(--gold)" stopOpacity={0.3}/>
-                <stop offset="95%" stopColor="var(--gold)" stopOpacity={0}/>
+                <stop offset="5%" stopColor="var(--accent)" stopOpacity={0.4}/>
+                <stop offset="95%" stopColor="var(--accent)" stopOpacity={0}/>
               </linearGradient>
             </defs>
             <CartesianGrid strokeDasharray="3 3" stroke="var(--chart-grid)" vertical={false} />
@@ -211,8 +211,8 @@ const ProgressChart = ({ stickers, stats, profile, cityDuplicates }) => {
             <Area
               type="monotone"
               dataKey="total"
-              stroke="var(--gold)"
-              strokeWidth={3}
+              stroke="var(--accent)"
+              strokeWidth={4}
               fillOpacity={1}
               fill="url(#colorTotal)"
               animationDuration={2000}

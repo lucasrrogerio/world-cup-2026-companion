@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { LogOut, User, Cloud, CheckCircle2, BarChart2, Sun, Moon, LogIn, Globe, Database } from 'lucide-react';
+import { LogOut, User, Cloud, CheckCircle2, BarChart2, Sun, Moon, LogIn, Globe, Database, MapPin } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLanguage } from '../contexts/LanguageContext';
 
@@ -19,17 +19,19 @@ export default function Header({
   setActiveView, 
   isSyncing,
   theme,
-  onThemeToggle 
+  onThemeToggle,
+  profile,
+  onProfileClick
 }) {
   const { language, setLanguage, t } = useLanguage();
   const [showLangMenu, setShowLangMenu] = useState(false);
   const isAnonymous = user?.is_anonymous;
 
   return (
-    <header className="bg-[var(--nav-bg)] text-[var(--text-primary)] p-4 border-b border-[var(--accent)] sticky top-0 z-50 backdrop-blur-md">
+    <header className="bg-[var(--nav-bg)] text-[var(--text-primary)] p-4 border-b border-[var(--card-border)] sticky top-0 z-50 backdrop-blur-md">
       <div className="container mx-auto flex justify-between items-center">
         <div className="flex items-center gap-4 md:gap-8">
-          <h1 className="text-lg md:text-xl font-black bg-gradient-to-r from-[var(--gold)] to-[var(--text-secondary)] bg-clip-text text-transparent leading-tight">
+          <h1 className="text-lg md:text-xl font-black text-[var(--text-primary)] leading-tight uppercase tracking-tighter">
             WC 2026 Companion
           </h1>
 
@@ -62,7 +64,7 @@ export default function Header({
                       exit={{ opacity: 0, scale: 0.8 }}
                       className="flex items-center gap-1.5"
                     >
-                      <CheckCircle2 className="text-[var(--gold)]" size={14} />
+                      <CheckCircle2 className="text-[var(--wc-lime)]" size={14} />
                       <span className="text-[10px] text-[var(--text-secondary)] uppercase tracking-widest hidden xs:block">{t('common.saved') || 'Salvo'}</span>
                     </motion.div>
                   )}
@@ -71,9 +73,9 @@ export default function Header({
             ) : null}
             
             {!user && (
-              <div className="flex items-center gap-2 px-3 py-1 bg-[var(--gold)]/10 rounded-full border border-[var(--gold)]/20">
-                <Database className="text-[var(--gold)]" size={14} />
-                <span className="text-[10px] text-[var(--gold)] font-bold uppercase tracking-widest hidden xs:block">{t('common.local_only') || 'Offline'}</span>
+              <div className="flex items-center gap-2 px-3 py-1 bg-[var(--accent)]/10 rounded-full border border-[var(--accent)]/20">
+                <Database className="text-[var(--accent)]" size={14} />
+                <span className="text-[10px] text-[var(--accent)] font-bold uppercase tracking-widest hidden xs:block">{t('common.local_only') || 'Offline'}</span>
               </div>
             )}
 
@@ -166,16 +168,27 @@ export default function Header({
           {user ? (
             <div className="flex items-center gap-2 md:gap-3">
               {!isAnonymous && (
-                <span className="hidden lg:flex items-center gap-2 text-sm text-[var(--text-secondary)]">
-                  <User size={16} />
-                  {user.email}
-                </span>
+                <button
+                  onClick={onProfileClick}
+                  className="hidden lg:flex flex-col items-end gap-0.5 px-3 py-1.5 rounded-xl hover:bg-white/5 transition-all text-right group"
+                >
+                  <div className="flex items-center gap-2 text-sm text-[var(--text-primary)] font-bold group-hover:text-[var(--accent)] transition-colors">
+                    <User size={14} />
+                    {user.email?.split('@')[0]}
+                  </div>
+                  {profile?.city && (
+                    <div className="flex items-center gap-1 text-[10px] text-[var(--text-secondary)] uppercase tracking-wider">
+                      <MapPin size={10} className="text-[var(--accent)]" />
+                      {profile.city}, {profile.state}
+                    </div>
+                  )}
+                </button>
               )}
               
               {isAnonymous ? (
                 <button
                   onClick={onLoginClick}
-                  className="flex items-center gap-2 bg-gradient-to-r from-purple-600 to-[var(--accent)] text-white px-3 py-2 rounded-xl text-sm font-bold shadow-lg transition-all active:scale-95"
+                  className="flex items-center gap-2 bg-[var(--accent)] text-[var(--bg-color)] px-3 py-2 rounded-xl text-sm font-bold shadow-lg transition-all active:scale-95"
                 >
                   <Cloud size={16} />
                   <span className="hidden sm:inline">Vincular E-mail</span>
@@ -194,7 +207,7 @@ export default function Header({
           ) : (
             <button
               onClick={onLoginClick}
-              className="flex items-center gap-2 bg-[var(--accent)] text-white px-4 py-2 rounded-xl font-bold shadow-lg shadow-purple-900/20 active:scale-95 transition-all"
+              className="flex items-center gap-2 bg-[var(--accent)] text-[var(--bg-color)] px-4 py-2 rounded-xl font-bold shadow-lg active:scale-95 transition-all"
             >
               <LogIn size={18} />
               <span>{t('common.login')}</span>
