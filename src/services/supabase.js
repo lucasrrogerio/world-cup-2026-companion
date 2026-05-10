@@ -79,7 +79,7 @@ export const getProfile = async (userId) => {
     .select('*')
     .eq('id', userId)
     .single();
-  
+
   if (error && error.code !== 'PGRST116') throw error; // PGRST116 is code for "no rows returned"
   return data;
 };
@@ -88,7 +88,7 @@ export const updateProfile = async (profile) => {
   const { data, error } = await supabase
     .from('profiles')
     .upsert(profile);
-  
+
   if (error) throw error;
   return data;
 };

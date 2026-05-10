@@ -11,6 +11,7 @@ import MobileNav from './components/MobileNav';
 import AuthModal from './components/AuthModal';
 import Footer from './components/Footer';
 import SidebarNav from './components/SidebarNav';
+import SupportModal from './components/SupportModal';
 import { useCollection } from './hooks/useCollection';
 import { supabase, signOut, getProfile, updateProfile } from './services/supabase';
 
@@ -19,6 +20,7 @@ function App() {
   const [activeGroup, setActiveGroup] = useState('A');
   const [activeView, setActiveView] = useState('album');
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [isSupportModalOpen, setIsSupportModalOpen] = useState(false);
   const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'dark');
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [profile, setProfile] = useState(null);
@@ -176,6 +178,11 @@ function App() {
           setActiveView('album');
         }}
       />
+
+      <SupportModal 
+        isOpen={isSupportModalOpen}
+        onClose={() => setIsSupportModalOpen(false)}
+      />
       
       {migrationMessage && (
         <motion.div
@@ -199,7 +206,10 @@ function App() {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
               >
-                <Dashboard onLoginClick={() => setIsAuthModalOpen(true)} />
+                <Dashboard 
+                  onLoginClick={() => setIsAuthModalOpen(true)} 
+                  onSupportClick={() => setIsSupportModalOpen(true)}
+                />
               </motion.div>
             ) : (
               <motion.div
@@ -235,6 +245,7 @@ function App() {
                         sortDirection={sortDirection}
                         isManualScrolling={isManualScrolling}
                         isMobile={isMobile}
+                        onSupportClick={() => setIsSupportModalOpen(true)}
                       />
                       <div className="flex-1 min-w-0 pb-10 pt-6">
                         <StickerGrid 
@@ -286,7 +297,9 @@ function App() {
         </div>
       </main>
 
-      {activeView !== 'album' && <Footer />}
+      {activeView !== 'album' && (
+        <Footer onSupportClick={() => setIsSupportModalOpen(true)} />
+      )}
     </div>
   );
 }

@@ -18,7 +18,7 @@ const GoalCard = ({ icon: Icon, title, description, delay }) => (
   </motion.div>
 );
 
-export default function Dashboard({ profile, onLoginClick }) {
+export default function Dashboard({ profile, onLoginClick, onSupportClick }) {
   const { t } = useLanguage();
 
   return (
@@ -36,16 +36,27 @@ export default function Dashboard({ profile, onLoginClick }) {
           {t('dashboard.hero_subtitle')}
         </p>
         
-        {!profile && (
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          {!profile && (
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={onLoginClick}
+              className="bg-[var(--accent)] hover:opacity-90 text-[var(--bg-color)] font-black px-10 py-5 rounded-2xl shadow-xl transition-all uppercase tracking-wider w-full sm:w-auto"
+            >
+              {t('dashboard.cta_start')}
+            </motion.button>
+          )}
+
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            onClick={onLoginClick}
-            className="bg-[var(--accent)] hover:opacity-90 text-[var(--bg-color)] font-black px-10 py-5 rounded-2xl shadow-xl transition-all uppercase tracking-wider"
+            onClick={onSupportClick}
+            className="bg-transparent border-2 border-[var(--card-border)] hover:border-[var(--accent)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] font-bold px-8 py-5 rounded-2xl transition-all uppercase tracking-wider w-full sm:w-auto"
           >
-            {t('dashboard.cta_start')}
+            ☕ Apoiar Projeto
           </motion.button>
-        )}
+        </div>
       </motion.div>
 
       {/* Objetivo Section */}

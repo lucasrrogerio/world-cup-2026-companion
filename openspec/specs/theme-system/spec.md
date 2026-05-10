@@ -10,9 +10,9 @@ The system SHALL support multiple visual themes (dark and light) that adapt all 
 
 #### Scenario: Light Mode Aesthetics
 - **WHEN** Light Mode is active
-- **THEN** the background MUST be a soft off-white (`#F1F5F9`).
-- **AND** interactive cards MUST be pure white (`#FFFFFF`).
-- **AND** gold accents MUST be adjusted for high readability against light backgrounds (`#D97706`).
+- **THEN** the background MUST be a soft off-white (`#f8fafc`).
+- **AND** interactive cards MUST be pure white (`#ffffff`).
+- **AND** gold accents MUST be adjusted for high readability against light backgrounds.
 
 ### Requirement: Guest Data Privacy
 The system SHALL protect regional verified data from unauthenticated users.

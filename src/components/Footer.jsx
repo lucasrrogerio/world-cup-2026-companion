@@ -1,14 +1,23 @@
 import React from 'react';
-import { Code, ExternalLink } from 'lucide-react';
+import { Code, ExternalLink, Coffee } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useLanguage } from '../contexts/LanguageContext';
 
-export default function Footer() {
+export default function Footer({ onSupportClick }) {
   const { t } = useLanguage();
 
   return (
     <footer className="w-full bg-[var(--nav-bg)] border-t border-[var(--card-border)] py-12 px-4 mt-auto mb-16 md:mb-0">
       <div className="container mx-auto flex flex-col items-center gap-6">
+        {/* Support Button */}
+        <button 
+          onClick={onSupportClick}
+          className="flex items-center gap-2 px-6 py-3 bg-[var(--accent)] text-[var(--bg-color)] rounded-2xl font-black text-sm shadow-xl hover:scale-105 transition-all group active:scale-95"
+        >
+          <Coffee size={20} className="group-hover:rotate-12 transition-transform" />
+          Apoiar Projeto
+        </button>
+
         {/* Social / Links */}
         <div className="flex items-center gap-6">
           <a

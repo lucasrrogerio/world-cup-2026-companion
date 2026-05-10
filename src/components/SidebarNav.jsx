@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { TEAMS_DATA } from '../data/stickers';
 import { useLanguage } from '../contexts/LanguageContext';
+import { Coffee } from 'lucide-react';
 import MobileScrubber from './MobileScrubber';
 
 export default function SidebarNav({ 
@@ -9,7 +10,8 @@ export default function SidebarNav({
   sortBy, 
   sortDirection,
   isManualScrolling,
-  isMobile 
+  isMobile,
+  onSupportClick
 }) {
   const { t } = useLanguage();
   
@@ -132,6 +134,18 @@ export default function SidebarNav({
             </li>
           );
         })}
+        
+        <li className="w-full mt-4 pt-4 border-t border-[var(--card-border)]">
+          <button
+            onClick={onSupportClick}
+            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-black text-[var(--accent)] hover:bg-[var(--accent)]/10 transition-all group"
+          >
+            <div className="bg-[var(--accent)]/10 p-1.5 rounded-lg group-hover:scale-110 transition-transform">
+              <Coffee size={14} />
+            </div>
+            Apoiar Projeto
+          </button>
+        </li>
       </ul>
     </aside>
   );
