@@ -132,7 +132,7 @@
     "switch_register_prompt": "初めてですか？",
     "switch_register_action": "アカウントを作成する",
     "or": "または",
-    "guest_login": "ゲストとしてログイン (Mock)",
+    "guest_login": "ゲストとしてログイン",
     "continue_guest": "ゲストとして続行",
     "guest_benefit_title": "ログインのメリット",
     "guest_benefit_sync": "✓ クラウド同期（データ保護）",

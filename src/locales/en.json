@@ -132,7 +132,7 @@
     "switch_register_prompt": "New here?",
     "switch_register_action": "Create your account",
     "or": "Or",
-    "guest_login": "Login as Guest (Mock)",
+    "guest_login": "Login as Guest",
     "continue_guest": "Continue as Guest",
     "guest_benefit_title": "Why log in?",
     "guest_benefit_sync": "✓ Cloud Sync (Safe data)",

@@ -41,7 +41,7 @@ export default function Footer() {
               href="https://github.com/lucasrrogerio"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[var(--gold)] hover:text-[var(--text-primary)] transition-colors font-bold border-b border-[var(--gold)]/30 hover:border-[var(--text-primary)]"
+              className="text-[var(--accent)] hover:text-[var(--text-primary)] transition-colors font-bold border-b border-[var(--accent)]/30 hover:border-[var(--text-primary)]"
             >
               Lucas Rogério
             </a>

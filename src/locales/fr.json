@@ -132,7 +132,7 @@
     "switch_register_prompt": "Nouveau ici ?",
     "switch_register_action": "Créez votre compte",
     "or": "Ou",
-    "guest_login": "Se connecter en tant qu'invité (Mock)",
+    "guest_login": "Se connecter en tant qu'invité",
     "continue_guest": "Continuer en tant qu'invité",
     "guest_benefit_title": "Pourquoi s'identifier ?",
     "guest_benefit_sync": "✓ Synchro Cloud (sécurité)",

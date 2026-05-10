@@ -31,8 +31,8 @@ export default function StickerCard({ sticker, onUpdate }) {
         onContextMenu={handleContextMenu}
         className={`w-full aspect-[3/4] rounded-lg border-2 flex flex-col items-center justify-center transition-all duration-300 relative overflow-hidden
           ${isMissing 
-            ? 'border-[var(--card-border)] bg-[var(--card-bg)] grayscale opacity-60 hover:opacity-100 hover:border-[var(--text-secondary)]' 
-            : 'border-[var(--accent)] bg-gradient-to-b from-[var(--accent)]/30 to-[var(--card-owned-bg)] shadow-[0_0_15px_rgba(75,0,130,0.3)]'
+            ? 'border-[var(--card-border)] bg-[var(--card-bg)] grayscale opacity-60 hover:opacity-100 hover:border-[var(--accent)]' 
+            : 'border-[var(--wc-lime)] bg-gradient-to-b from-[var(--wc-lime)]/20 to-[var(--card-owned-bg)] shadow-[0_0_20px_rgba(180,255,0,0.15)]'
           }
         `}
       >

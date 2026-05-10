@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { INITIAL_STICKERS } from '../data/stickers';
 import { supabase } from '../services/supabase';
+import { getAndClearPendingMigration } from '../utils/migration';
 
 export function useCollection(user) {
   const [stickers, setStickers] = useState(INITIAL_STICKERS);
@@ -98,7 +99,7 @@ export function useCollection(user) {
         return acc;
       }, {});
       
-      setStickers(INITIAL_STICKERS.map(s => {
+      const fetchedStickers = INITIAL_STICKERS.map(s => {
         const data = parsed[s.id] || { count: 0, pastedAt: null };
         const count = data.count;
         const pastedAt = data.pastedAt || (count > 0 ? new Date().toISOString() : null);
@@ -107,7 +108,50 @@ export function useCollection(user) {
           count,
           pastedAt
         };
-      }));
+      });
+
+      // 1.1 Check for pending migration
+      if (!user.is_anonymous) {
+        const migrationData = getAndClearPendingMigration();
+        if (migrationData) {
+          console.log('Migration data found during fetch, merging...');
+          const merged = fetchedStickers.map(s => {
+            const guestData = migrationData[s.id];
+            if (!guestData) return s;
+
+            const guestCount = guestData.count || 0;
+            const currentCount = s.count || 0;
+
+            if (guestCount > currentCount) {
+              // Prepare for sync
+              syncQueue.current[s.id] = { 
+                count: guestCount, 
+                pastedAt: guestData.pastedAt || s.pastedAt 
+              };
+              return {
+                ...s,
+                count: guestCount,
+                pastedAt: guestData.pastedAt || s.pastedAt
+              };
+            }
+            return s;
+          });
+
+          setStickers(merged);
+          
+          // Trigger sync for merged items
+          if (Object.keys(syncQueue.current).length > 0) {
+            syncBatch();
+          }
+          
+          // Trigger a custom event for UI feedback if needed
+          window.dispatchEvent(new CustomEvent('wc_migration_complete'));
+        } else {
+          setStickers(fetchedStickers);
+        }
+      } else {
+        setStickers(fetchedStickers);
+      }
 
       // 2. Fetch user's city
       const { data: profile } = await supabase
@@ -190,6 +234,46 @@ export function useCollection(user) {
     }
   }, [user, syncBatch]);
 
+  const mergeCollection = useCallback((migrationData) => {
+    if (!migrationData || Object.keys(migrationData).length === 0) return;
+
+    setStickers(prev => {
+      const updated = prev.map(s => {
+        const guestData = migrationData[s.id];
+        if (!guestData) return s;
+
+        const guestCount = guestData.count || 0;
+        const currentCount = s.count || 0;
+
+        if (guestCount > currentCount) {
+          // Prepare for sync
+          if (user) {
+            syncQueue.current[s.id] = { 
+              count: guestCount, 
+              pastedAt: guestData.pastedAt || s.pastedAt 
+            };
+          }
+          return {
+            ...s,
+            count: guestCount,
+            pastedAt: guestData.pastedAt || s.pastedAt
+          };
+        }
+        return s;
+      });
+
+      // Trigger sync if we have updates
+      if (user && Object.keys(syncQueue.current).length > 0) {
+        if (syncTimeout.current) clearTimeout(syncTimeout.current);
+        syncTimeout.current = setTimeout(() => {
+          syncBatch();
+        }, 1000);
+      }
+
+      return updated;
+    });
+  }, [user, syncBatch]);
+
   const stats = useMemo(() => {
     let totalOwned = 0;
     let totalMissing = 0;
@@ -238,6 +322,7 @@ export function useCollection(user) {
     cityDuplicates,
     isSyncing,
     isLocalOnly: !user,
-    updateStickerCount
+    updateStickerCount,
+    mergeCollection
   };
 }

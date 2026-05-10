@@ -2,9 +2,10 @@ import { useState } from 'react';
 import { MapPin, ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-export default function Onboarding({ onComplete, onSkip }) {
-  const [city, setCity] = useState('');
-  const [state, setState] = useState('');
+export default function Onboarding({ onComplete, onSkip, initialData }) {
+  const [city, setCity] = useState(initialData?.city || '');
+  const [state, setState] = useState(initialData?.state || '');
+  const isEditing = !!initialData;
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -22,9 +23,13 @@ export default function Onboarding({ onComplete, onSkip }) {
           <MapPin className="text-white" size={32} />
         </div>
         
-        <h2 className="text-2xl font-bold text-center mb-2 text-[var(--text-primary)]">Ajude a comunidade!</h2>
+        <h2 className="text-2xl font-bold text-center mb-2 text-[var(--text-primary)]">
+          {isEditing ? "Editar Localização" : "Ajude a comunidade!"}
+        </h2>
         <p className="text-[var(--text-secondary)] text-center mb-8">
-          Informe sua localização para receber dicas de troca inteligentes baseadas nas figurinhas da sua região.
+          {isEditing 
+            ? "Mantenha sua localização atualizada para receber dicas precisas." 
+            : "Informe sua localização para receber dicas de troca inteligentes baseadas nas figurinhas da sua região."}
         </p>
         
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -57,7 +62,7 @@ export default function Onboarding({ onComplete, onSkip }) {
             type="submit"
             className="w-full bg-gradient-to-r from-[var(--accent)] to-[#8A2BE2] text-white font-bold py-4 rounded-2xl flex items-center justify-center gap-2 hover:opacity-90 transition-opacity mt-6 shadow-lg shadow-purple-900/20"
           >
-            Começar a Colecionar
+            {isEditing ? "Salvar Alterações" : "Começar a Colecionar"}
             <ArrowRight size={20} />
           </button>
         </form>

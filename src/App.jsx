@@ -23,12 +23,13 @@ function App() {
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [profile, setProfile] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
+  const [migrationMessage, setMigrationMessage] = useState(null);
   const [sortBy, setSortBy] = useState('group'); // 'group' or 'alpha'
   const [sortDirection, setSortDirection] = useState('asc'); // 'asc' or 'desc'
   const isManualScrolling = useRef(false);
   const [filterMode, setFilterMode] = useState('all'); // 'all', 'missing', 'duplicates'
 
-  const { stickers, stats, cityDuplicates, isSyncing, updateStickerCount } = useCollection(user);
+  const { stickers, stats, cityDuplicates, isSyncing, updateStickerCount, mergeCollection } = useCollection(user);
 
   // Theme effect
   useEffect(() => {
@@ -94,9 +95,17 @@ function App() {
       }
     });
 
+    const handleMigrationComplete = () => {
+      setMigrationMessage("Seu progresso de visitante foi migrado com sucesso!");
+      setTimeout(() => setMigrationMessage(null), 5000);
+    };
+
+    window.addEventListener('wc_migration_complete', handleMigrationComplete);
+
     return () => {
       subscription.unsubscribe();
       window.removeEventListener('resize', checkMobile);
+      window.removeEventListener('wc_migration_complete', handleMigrationComplete);
     };
   }, []);
 
@@ -146,12 +155,15 @@ function App() {
         isSyncing={isSyncing}
         theme={theme}
         onThemeToggle={() => setTheme(prev => prev === 'dark' ? 'light' : 'dark')}
+        profile={profile}
+        onProfileClick={() => setShowOnboarding(true)}
       />
       
       {showOnboarding && (
         <Onboarding 
           onComplete={handleOnboardingComplete} 
           onSkip={() => setShowOnboarding(false)} 
+          initialData={profile}
         />
       )}
 
@@ -159,11 +171,23 @@ function App() {
         isOpen={isAuthModalOpen} 
         onClose={() => setIsAuthModalOpen(false)}
         user={user}
+        stickers={stickers}
         onAuthSuccess={() => {
-          // A sessão é capturada automaticamente pelo onAuthStateChange do Supabase
           setActiveView('album');
         }}
       />
+      
+      {migrationMessage && (
+        <motion.div
+          initial={{ opacity: 0, y: -50 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -50 }}
+          className="fixed top-24 left-1/2 -translate-x-1/2 z-[60] bg-[var(--gold)] text-black px-6 py-3 rounded-2xl font-bold shadow-2xl flex items-center gap-2"
+        >
+          <div className="bg-black/10 p-1 rounded-full">✨</div>
+          {migrationMessage}
+        </motion.div>
+      )}
       
       <main className={`flex-1 ${isMobile ? 'pb-20' : ''}`}>
         <div className="container mx-auto px-4 pt-8">
@@ -236,6 +260,7 @@ function App() {
                     <ProgressChart 
                       stickers={stickers} 
                       stats={stats} 
+                      user={user}
                       profile={profile} 
                       cityDuplicates={cityDuplicates} 
                     />

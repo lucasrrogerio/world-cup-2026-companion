@@ -132,7 +132,7 @@
     "switch_register_prompt": "Novo por aqui?",
     "switch_register_action": "Crie sua conta",
     "or": "Ou",
-    "guest_login": "Entrar como Visitante (Mock)",
+    "guest_login": "Entrar como Visitante",
     "continue_guest": "Continuar como Visitante",
     "guest_benefit_title": "Por que entrar?",
     "guest_benefit_sync": "✓ Sincronização em nuvem (segurança)",
