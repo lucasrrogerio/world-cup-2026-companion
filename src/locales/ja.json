@@ -157,6 +157,7 @@
     "or": "または",
     "guest_login": "ゲストとしてログイン",
     "continue_guest": "ゲストとして続行",
+    "continue_guest_local": "ローカルゲストとして続行",
     "guest_benefit_title": "ログインのメリット",
     "guest_benefit_sync": "✓ クラウド同期（データ保護）",
     "guest_benefit_insights": "✓ 地域の交換情報を確認",

@@ -367,7 +367,7 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess, onDevGuestBy
                     ? t('auth.loading')
                     : shouldRequireCaptcha
                       ? (showCaptcha ? (turnstileToken ? t('auth.continue_guest') : 'Validando...') : t('auth.continue_guest'))
-                      : 'Continuar como Visitante Local'}
+                      : t('auth.continue_guest_local')}
                 </button>
 
                 {shouldRequireCaptcha && showCaptcha && (
