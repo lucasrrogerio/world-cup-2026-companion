@@ -19,6 +19,7 @@ import { buildGroupItems, buildAlphaItems, getValidItemForMode } from './utils/n
 
 function App() {
   const [user, setUser] = useState(null);
+  const [isLocalGuestMode, setIsLocalGuestMode] = useState(false);
   const [activeGroupItem, setActiveGroupItem] = useState('FWC');
   const [activeAlphaItem, setActiveAlphaItem] = useState('FWC');
   const [activeView, setActiveView] = useState('album');
@@ -47,11 +48,11 @@ function App() {
     }
   };
 
-  const handleSortModeToggle = () => {
-    const nextSortBy = sortBy === 'group' ? 'alpha' : 'group';
-    setSortBy(nextSortBy);
+  const handleSortModeToggle = (mode) => {
+    setSortBy(mode);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 
-    if (nextSortBy === 'group') {
+    if (mode === 'group') {
       setActiveGroupItem(prev => getValidItemForMode('group', prev, groupItems, alphaItems));
       return;
     }
@@ -64,17 +65,21 @@ function App() {
     setActiveAlphaItem(prev => getValidItemForMode('alpha', prev, groupItems, alphaItems));
   }, [groupItems, alphaItems]);
 
-  const { stickers, stats, cityDuplicates, isSyncing, updateStickerCount, mergeCollection } = useCollection(user);
+  const appUser = user ?? (isLocalGuestMode ? { id: 'local-dev-guest', is_anonymous: true, is_local_guest: true } : null);
+  const canAccessApp = Boolean(appUser);
+  const { stickers, stats, cityDuplicates, isSyncing, updateStickerCount } = useCollection(user);
 
-  // Theme effect
+  // Theme effect - apply immediately
   useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('theme', theme);
+    requestAnimationFrame(() => {
+      document.documentElement.setAttribute('data-theme', theme);
+      localStorage.setItem('theme', theme);
+    });
   }, [theme]);
 
   // ScrollSpy: Update activeGroup as user scrolls
   useEffect(() => {
-    if (sortBy !== 'group' || activeView !== 'album' || !user) return;
+    if (sortBy !== 'group' || activeView !== 'album' || !canAccessApp) return;
 
     const observerOptions = {
       root: null,
@@ -100,7 +105,7 @@ function App() {
     sections.forEach(section => observer.observe(section));
 
     return () => observer.disconnect();
-  }, [sortBy, activeView, user]);
+  }, [sortBy, activeView, canAccessApp]);
 
   useEffect(() => {
     const checkMobile = () => {
@@ -113,6 +118,7 @@ function App() {
       const currentUser = session?.user ?? null;
       setUser(currentUser);
       if (currentUser) {
+        setIsLocalGuestMode(false);
         checkProfile(currentUser.id, currentUser);
         if (activeView === 'dashboard') setActiveView('album');
       }
@@ -122,6 +128,7 @@ function App() {
       const currentUser = session?.user ?? null;
       setUser(currentUser);
       if (currentUser) {
+        setIsLocalGuestMode(false);
         checkProfile(currentUser.id, currentUser);
         setActiveView('album');
       } else {
@@ -179,11 +186,22 @@ function App() {
     }
   };
 
+  const handleLogout = async () => {
+    if (!user && isLocalGuestMode) {
+      setIsLocalGuestMode(false);
+      setActiveView('album');
+      setIsAuthModalOpen(false);
+      return;
+    }
+
+    await signOut();
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-[var(--bg-color)] text-[var(--text-primary)] font-sans transition-colors duration-300">
       <Header 
-        user={user} 
-        onLogout={signOut} 
+        user={appUser} 
+        onLogout={handleLogout} 
         onLoginClick={() => setIsAuthModalOpen(true)}
         activeView={activeView}
         setActiveView={setActiveView}
@@ -205,8 +223,12 @@ function App() {
       <AuthModal 
         isOpen={isAuthModalOpen} 
         onClose={() => setIsAuthModalOpen(false)}
-        user={user}
+        user={appUser}
         stickers={stickers}
+        onDevGuestBypass={() => {
+          setIsLocalGuestMode(true);
+          setProfile(null);
+        }}
         onAuthSuccess={() => {
           setActiveView('album');
         }}
@@ -232,7 +254,7 @@ function App() {
       <main className="flex-1 pb-20 md:pb-0">
         <div className="container mx-auto px-4 pt-8">
           <AnimatePresence mode="wait">
-            {!user ? (
+            {!canAccessApp ? (
               <motion.div
                 key="landing"
                 initial={{ opacity: 0 }}
@@ -301,7 +323,7 @@ function App() {
                     <ProgressChart 
                       stickers={stickers} 
                       stats={stats} 
-                      user={user}
+                       user={appUser}
                       profile={profile} 
                       cityDuplicates={cityDuplicates} 
                     />
@@ -314,7 +336,7 @@ function App() {
                     exit={{ opacity: 0, y: -20 }}
                     transition={{ duration: 0.2 }}
                   >
-                    <AboutView user={user} />
+                    <AboutView user={appUser} />
                   </motion.div>
                 )}
               </motion.div>
@@ -324,11 +346,11 @@ function App() {
         </div>
       </main>
 
-      {user && (
+      {canAccessApp && (
         <MobileNav
           activeView={activeView}
           setActiveView={setActiveView}
-          user={user}
+          user={appUser}
           profile={profile}
           onProfileClick={() => setShowOnboarding(true)}
         />

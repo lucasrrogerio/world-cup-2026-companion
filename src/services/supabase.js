@@ -39,10 +39,14 @@ export const signInWithGoogle = async () => {
 };
 
 export const signInAnonymously = async (captchaToken) => {
+  const options = {};
+
+  if (captchaToken) {
+    options.captchaToken = captchaToken;
+  }
+
   const { data, error } = await supabase.auth.signInAnonymously({
-    options: {
-      captchaToken,
-    },
+    options,
   });
   if (error) throw error;
   return data;

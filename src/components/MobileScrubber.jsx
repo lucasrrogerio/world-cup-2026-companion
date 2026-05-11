@@ -6,14 +6,13 @@ export default function MobileScrubber({ items, activeItem, onSelect }) {
   const [dragItem, setDragItem] = useState(null);
   const containerRef = useRef(null);
 
-  // We need to attach a non-passive touchmove listener to prevent page scrolling while dragging
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
 
     const handleTouchMove = (e) => {
       if (!isDragging) return;
-      e.preventDefault(); // Stop page scrolling
+      e.preventDefault();
       
       const touch = e.touches[0];
       const rect = container.getBoundingClientRect();
@@ -63,14 +62,12 @@ export default function MobileScrubber({ items, activeItem, onSelect }) {
     onSelect(targetItem);
   };
 
-  // If there are too many items (e.g. 50 acronyms), we don't render text for all of them
-  // We just render tiny dots or a subset of letters, but calculate position proportionally.
   const isDense = items.length > 20;
 
   return (
     <>
       <div 
-        className="fixed right-0 top-[130px] bottom-[80px] w-6 z-[60] flex items-center justify-center touch-none select-none"
+        className="fixed right-0 top-[120px] bottom-[80px] w-8 z-45 touch-none select-none"
         onMouseDown={(e) => handleStart(e.clientY)}
         onTouchStart={(e) => handleStart(e.touches[0].clientY)}
       >
@@ -78,21 +75,19 @@ export default function MobileScrubber({ items, activeItem, onSelect }) {
           ref={containerRef}
           className="h-full w-full flex flex-col justify-between items-center py-2"
         >
-          {items.map((item, idx) => {
-            // For dense lists, maybe only show every nth item or just render a continuous track
-            // Let's show dots for dense, or text for normal
+          {items.map((item) => {
             if (isDense) {
               return (
                 <div 
                   key={item} 
-                  className={`w-1 h-1 rounded-full ${activeItem === item ? 'bg-[var(--accent)] scale-150' : 'bg-[var(--text-secondary)] opacity-50'}`} 
+                  className={`w-1 h-1 rounded-full ${activeItem === item ? 'bg-[var(--accent)] scale-150' : 'bg-[var(--text-secondary)]/30'}`}
                 />
               );
             }
             return (
               <div 
                 key={item} 
-                className={`text-[8px] font-bold leading-none ${activeItem === item ? 'text-[var(--accent)] scale-125' : 'text-[var(--text-secondary)] opacity-60'}`}
+                className={`text-[8px] font-bold leading-none ${activeItem === item ? 'text-[var(--accent)] scale-125' : 'text-[var(--text-secondary)]/30'}`}
               >
                 {item === 'Coca-Cola' ? 'CC' : item}
               </div>
@@ -101,7 +96,6 @@ export default function MobileScrubber({ items, activeItem, onSelect }) {
         </div>
       </div>
 
-      {/* Big Bubble Preview */}
       <AnimatePresence>
         {isDragging && dragItem && (
           <motion.div

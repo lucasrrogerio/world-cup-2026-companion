@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Cloud, AlertTriangle, CheckCircle, LogIn, Link } from 'lucide-react';
 import { signInWithEmail, signUpWithEmail, signInWithGoogle, signInAnonymously, upgradeToEmailAccount } from '../services/supabase';
@@ -6,8 +6,9 @@ import { useLanguage } from '../contexts/LanguageContext';
 import { Turnstile } from '@marsidev/react-turnstile';
 import { setPendingMigration } from '../utils/migration';
 
-export default function AuthModal({ isOpen, onClose, onAuthSuccess, user, stickers }) {
+export default function AuthModal({ isOpen, onClose, onAuthSuccess, onDevGuestBypass, user, stickers }) {
   const { t } = useLanguage();
+  const isDevMode = import.meta.env.DEV;
   const [isRegistering, setIsRegistering] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -15,9 +16,20 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess, user, sticke
   const [isLoading, setIsLoading] = useState(false);
   const [turnstileToken, setTurnstileToken] = useState(null);
   const [showCaptcha, setShowCaptcha] = useState(false);
+  const [isGuestCaptchaBypassed, setIsGuestCaptchaBypassed] = useState(false);
   // 'link' = upgrade anonymous → keep data | 'login' = sign in to existing account → lose local data
   const [anonymousMode, setAnonymousMode] = useState('link');
-  const isAnonymous = user?.is_anonymous;
+  const isLocalGuest = user?.is_local_guest;
+  const isAnonymous = user?.is_anonymous && !user?.is_local_guest;
+  const supportsMigrationMode = isAnonymous || isLocalGuest;
+  const shouldRequireCaptcha = !isDevMode || !isGuestCaptchaBypassed;
+
+  const handleGuestBypassToggle = () => {
+    setIsGuestCaptchaBypassed((current) => !current);
+    setShowCaptcha(false);
+    setTurnstileToken(null);
+    setError(null);
+  };
 
   const handleAuth = async (e) => {
     e.preventDefault();
@@ -30,6 +42,13 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess, user, sticke
         alert('Sua coleção foi vinculada com sucesso! Seus dados estão seguros na nuvem.');
       } else if (isAnonymous && anonymousMode === 'login') {
         // Login to existing account: local data stays local (not merged)
+        await signInWithEmail(email, password);
+        if (onAuthSuccess) onAuthSuccess();
+      } else if (isLocalGuest && anonymousMode === 'link') {
+        setPendingMigration(stickers);
+        await signUpWithEmail(email, password);
+        alert('Sua coleção local foi preparada para migração. Conclua o cadastro para salvar tudo na nuvem.');
+      } else if (isLocalGuest && anonymousMode === 'login') {
         await signInWithEmail(email, password);
         if (onAuthSuccess) onAuthSuccess();
       } else if (isRegistering) {
@@ -55,7 +74,7 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess, user, sticke
     setError(null);
     setIsLoading(true);
     try {
-      if (isAnonymous && anonymousMode === 'link') {
+      if ((isAnonymous || isLocalGuest) && anonymousMode === 'link') {
         // Vincular: salva migration para mesclar ao entrar
         setPendingMigration(stickers);
       }
@@ -69,22 +88,31 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess, user, sticke
 
 
   const handleGuestLogin = async () => {
-    if (!showCaptcha) {
+    if (shouldRequireCaptcha && !showCaptcha) {
       setShowCaptcha(true);
       return;
     }
-    
-    if (!turnstileToken) return;
+
+    if (shouldRequireCaptcha && !turnstileToken) return;
+
+    if (!shouldRequireCaptcha) {
+      onDevGuestBypass?.();
+      if (onAuthSuccess) onAuthSuccess();
+      onClose();
+      return;
+    }
 
     setError(null);
     setIsLoading(true);
     try {
-      await signInAnonymously(turnstileToken);
+      await signInAnonymously(shouldRequireCaptcha ? turnstileToken : undefined);
       if (onAuthSuccess) onAuthSuccess();
       onClose();
     } catch (err) {
       setError(err.message);
-      setTurnstileToken(null); // Reset token on error to allow retry
+      if (shouldRequireCaptcha) {
+        setTurnstileToken(null); // Reset token on error to allow retry
+      }
     } finally {
       setIsLoading(false);
     }
@@ -119,13 +147,15 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess, user, sticke
             </button>
 
             <h2 className="text-3xl font-black mb-2 text-center text-[var(--text-primary)]">
-              {isAnonymous
-                ? (anonymousMode === 'link' ? 'Vincular Conta' : 'Entrar em Conta Existente')
+              {supportsMigrationMode
+                ? (anonymousMode === 'link'
+                    ? (isLocalGuest ? 'Salvar Progresso' : 'Vincular Conta')
+                    : 'Entrar em Conta Existente')
                 : (isRegistering ? t('auth.title_register') : t('auth.title_login'))}
             </h2>
 
             {/* ── ANONYMOUS MODE TAB SWITCHER ── */}
-            {isAnonymous && (
+            {supportsMigrationMode && (
               <div className="mb-5">
                 {/* Tab switcher */}
                 <div className="flex rounded-2xl p-1 bg-[var(--bg-color)] border border-[var(--card-border)] mb-4">
@@ -139,7 +169,7 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess, user, sticke
                     }`}
                   >
                     <Link size={14} />
-                    Vincular conta
+                    {isLocalGuest ? 'Salvar conta' : 'Vincular conta'}
                   </button>
                   <button
                     type="button"
@@ -169,7 +199,9 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess, user, sticke
                         <span className="text-emerald-400 text-xs font-black uppercase tracking-widest">Seus dados são mantidos</span>
                       </div>
                       <p className="text-[11px] text-[var(--text-secondary)] leading-relaxed">
-                        Ao vincular, sua coleção atual é <b className="text-[var(--text-primary)]">mesclada à conta</b>. Você não perde nada — e ainda ganha backup em nuvem e acesso em outros aparelhos.
+                        {isLocalGuest
+                          ? <>Ao salvar, sua coleção local fica <b className="text-[var(--text-primary)]">pronta para migrar para a conta</b>. Você mantém o progresso e ainda ganha backup em nuvem.</>
+                          : <>Ao vincular, sua coleção atual é <b className="text-[var(--text-primary)]">mesclada à conta</b>. Você não perde nada — e ainda ganha backup em nuvem e acesso em outros aparelhos.</>}
                       </p>
                     </motion.div>
                   ) : (
@@ -225,20 +257,22 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess, user, sticke
                 type="submit"
                 disabled={isLoading}
                 className={`w-full font-bold py-3 rounded-xl transition-all shadow-lg disabled:opacity-50 text-white ${
-                  isAnonymous && anonymousMode === 'login'
+                  supportsMigrationMode && anonymousMode === 'login'
                     ? 'bg-amber-500 hover:bg-amber-400'
                     : 'bg-[var(--accent)] hover:opacity-90 text-[var(--bg-color)]'
                 }`}
               >
                 {isLoading
                   ? t('auth.loading')
-                  : isAnonymous
-                    ? (anonymousMode === 'link' ? 'Vincular e salvar minha coleção' : 'Entrar (sem migrar dados)')
+                  : supportsMigrationMode
+                    ? (anonymousMode === 'link'
+                        ? (isLocalGuest ? 'Salvar e migrar minha coleção' : 'Vincular e salvar minha coleção')
+                        : 'Entrar (sem migrar dados)')
                     : (isRegistering ? t('auth.submit_register') : t('auth.submit_login'))}
               </button>
             </form>
 
-            {!isAnonymous ? (
+            {!supportsMigrationMode ? (
               <div className="mt-6 text-center text-[var(--text-secondary)] text-sm space-y-4">
               <p>
                 {isRegistering ? t('auth.switch_login_prompt') : t('auth.switch_register_prompt')}
@@ -279,16 +313,64 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess, user, sticke
                   </ul>
                 </div>
 
+                {isDevMode && (
+                  <div className={`rounded-2xl border p-3 text-left ${
+                    isGuestCaptchaBypassed
+                      ? 'border-amber-500/40 bg-amber-500/10'
+                      : 'border-[var(--card-border)] bg-[var(--card-bg)]/60'
+                  }`}>
+                    <div className="flex items-center justify-between gap-3">
+                      <div className="min-w-0">
+                        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[var(--text-primary)]">
+                          Modo dev visitante
+                        </p>
+                        <p className="text-[11px] leading-relaxed text-[var(--text-secondary)]">
+                          {isGuestCaptchaBypassed
+                            ? 'Cloudflare desabilitado. O acesso continua em modo visitante local neste ambiente de dev.'
+                            : 'Cloudflare ativo. Ative o bypass apenas para depurar localmente.'}
+                        </p>
+                      </div>
+
+                      <button
+                        type="button"
+                        onClick={handleGuestBypassToggle}
+                        className={`shrink-0 rounded-xl px-3 py-2 text-[10px] font-bold uppercase tracking-wider transition-all ${
+                          isGuestCaptchaBypassed
+                            ? 'bg-amber-500 text-white hover:bg-amber-400'
+                            : 'bg-[var(--bg-color)] text-[var(--text-primary)] border border-[var(--card-border)] hover:border-[var(--accent)]'
+                        }`}
+                      >
+                        {isGuestCaptchaBypassed ? 'Reativar Cloudflare' : 'Desabilitar Cloudflare'}
+                      </button>
+                    </div>
+                  </div>
+                )}
+
+                {isGuestCaptchaBypassed && (
+                  <div className="rounded-2xl border border-amber-500/30 bg-amber-500/10 p-3 text-left">
+                    <div className="flex items-center gap-2">
+                      <Cloud size={14} className="text-amber-300 shrink-0" />
+                      <p className="text-[11px] font-semibold text-amber-200">
+                        Visitante local ativo neste modo dev, sem sessão Supabase.
+                      </p>
+                    </div>
+                  </div>
+                )}
+
                 <button
                   onClick={handleGuestLogin}
                   type="button"
-                  disabled={isLoading || (showCaptcha && !turnstileToken)}
+                  disabled={isLoading || (shouldRequireCaptcha && showCaptcha && !turnstileToken)}
                   className="w-full bg-[var(--card-bg)] border border-[var(--card-border)] hover:border-[var(--accent)] text-[var(--text-primary)] hover:text-[var(--accent)] py-2.5 rounded-xl text-sm transition-all font-bold disabled:opacity-50"
                 >
-                  {isLoading ? t('auth.loading') : (showCaptcha ? (turnstileToken ? t('auth.continue_guest') : 'Validando...') : t('auth.continue_guest'))}
+                  {isLoading
+                    ? t('auth.loading')
+                    : shouldRequireCaptcha
+                      ? (showCaptcha ? (turnstileToken ? t('auth.continue_guest') : 'Validando...') : t('auth.continue_guest'))
+                      : 'Continuar como Visitante Local'}
                 </button>
 
-                {showCaptcha && (
+                {shouldRequireCaptcha && showCaptcha && (
                   <motion.div
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
