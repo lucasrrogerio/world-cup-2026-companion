@@ -178,6 +178,19 @@
     "guest_migration_success": "Seu progresso de visitante foi migrado com sucesso!"
   },
   "album": {
+    "filter_all": "Todas",
+    "filter_missing": "Faltando",
+    "filter_duplicates": "Repetidas",
+    "filter_groups": "Grupos",
+    "filter_alpha": "Alfabética",
+    "sort_group": "Ordenar por Grupo",
+    "sort_alpha": "Ordenar Alfabético",
+    "sort_asc": "Ordem Crescente",
+    "sort_desc": "Ordem Decrescente",
+    "group_label": "Grupo {{name}}",
+    "team_badge": "{{code}}",
+    "empty_state": "Nenhuma figurinha encontrada com esses filtros.",
+    "view_all_alpha": "Exibindo todas as figurinhas em ordem alfabética",
     "no_missing_stickers": "Parabéns! Parece que você completou essa parte do álbum!",
     "no_duplicates": "Nenhuma figurinha repetida por enquanto."
   },
