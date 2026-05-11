@@ -3,10 +3,8 @@ import { Filter, SortAsc, LayoutGrid, SortDesc, ChevronRight } from 'lucide-reac
 import { useLanguage } from '../contexts/LanguageContext';
 
 export default function Navigation({ 
-  activeGroup, 
-  setActiveGroup, 
   sortBy, 
-  setSortBy,
+  onToggleSortBy,
   sortDirection,
   setSortDirection,
   filterMode,
@@ -55,12 +53,8 @@ export default function Navigation({
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-1 bg-[var(--card-bg)]/50 p-1 rounded-2xl border border-[var(--card-border)]">
             <button
-              onClick={() => setSortBy(sortBy === 'group' ? 'alpha' : 'group')}
-              className={`flex items-center gap-2 px-4 py-2 rounded-xl text-[10px] font-bold uppercase tracking-wider transition-all duration-300 ${
-                sortBy === 'alpha' 
-                  ? 'bg-[var(--accent)] text-white shadow-lg' 
-                  : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-color)]'
-              }`}
+              onClick={onToggleSortBy}
+              className="flex items-center gap-2 px-4 py-2 rounded-xl text-[10px] font-bold uppercase tracking-wider transition-all duration-300 bg-[var(--accent)] text-white shadow-lg"
             >
               {sortBy === 'group' ? <LayoutGrid size={14} /> : <SortAsc size={14} />}
               <span>{sortBy === 'group' ? t('album.filter_groups') : t('album.filter_alpha')}</span>

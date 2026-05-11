@@ -2,7 +2,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import StickerCard from './StickerCard';
 import { useLanguage } from '../contexts/LanguageContext';
 
-export default function StickerGrid({ stickers, activeGroup, onUpdateSticker, sortBy, sortDirection, filterMode = 'all' }) {
+export default function StickerGrid({ stickers, onUpdateSticker, sortBy, sortDirection, filterMode = 'all' }) {
   const { t } = useLanguage();
   
   const filteredStickers = stickers.filter(s => {

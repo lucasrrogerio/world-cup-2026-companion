@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Header from './components/Header';
 import Navigation from './components/Navigation';
@@ -14,10 +14,13 @@ import SidebarNav from './components/SidebarNav';
 import SupportModal from './components/SupportModal';
 import { useCollection } from './hooks/useCollection';
 import { supabase, signOut, getProfile, updateProfile } from './services/supabase';
+import { TEAMS_DATA } from './data/stickers';
+import { buildGroupItems, buildAlphaItems, getValidItemForMode } from './utils/navigationState';
 
 function App() {
   const [user, setUser] = useState(null);
-  const [activeGroup, setActiveGroup] = useState('A');
+  const [activeGroupItem, setActiveGroupItem] = useState('FWC');
+  const [activeAlphaItem, setActiveAlphaItem] = useState('FWC');
   const [activeView, setActiveView] = useState('album');
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isSupportModalOpen, setIsSupportModalOpen] = useState(false);
@@ -30,6 +33,36 @@ function App() {
   const [sortDirection, setSortDirection] = useState('asc'); // 'asc' or 'desc'
   const isManualScrolling = useRef(false);
   const [filterMode, setFilterMode] = useState('all'); // 'all', 'missing', 'duplicates'
+
+  const groupItems = useMemo(() => buildGroupItems(TEAMS_DATA), []);
+  const alphaItems = useMemo(() => buildAlphaItems(TEAMS_DATA, sortDirection), [sortDirection]);
+
+  const activeNavItem = sortBy === 'group' ? activeGroupItem : activeAlphaItem;
+
+  const setActiveNavItem = (item) => {
+    if (sortBy === 'group') {
+      setActiveGroupItem(item);
+    } else {
+      setActiveAlphaItem(item);
+    }
+  };
+
+  const handleSortModeToggle = () => {
+    const nextSortBy = sortBy === 'group' ? 'alpha' : 'group';
+    setSortBy(nextSortBy);
+
+    if (nextSortBy === 'group') {
+      setActiveGroupItem(prev => getValidItemForMode('group', prev, groupItems, alphaItems));
+      return;
+    }
+
+    setActiveAlphaItem(prev => getValidItemForMode('alpha', prev, groupItems, alphaItems));
+  };
+
+  useEffect(() => {
+    setActiveGroupItem(prev => getValidItemForMode('group', prev, groupItems, alphaItems));
+    setActiveAlphaItem(prev => getValidItemForMode('alpha', prev, groupItems, alphaItems));
+  }, [groupItems, alphaItems]);
 
   const { stickers, stats, cityDuplicates, isSyncing, updateStickerCount, mergeCollection } = useCollection(user);
 
@@ -57,7 +90,7 @@ function App() {
           const sectionId = entry.target.id.replace('section-', '');
           let group = sectionId;
           if (sectionId === 'Coca-Cola') group = 'CC';
-          setActiveGroup(group);
+          setActiveGroupItem(group);
         }
       });
     };
@@ -227,10 +260,8 @@ function App() {
                     transition={{ duration: 0.2 }}
                   >
                     <Navigation 
-                      activeGroup={activeGroup} 
-                      setActiveGroup={setActiveGroup} 
+                      onToggleSortBy={handleSortModeToggle}
                       sortBy={sortBy}
-                      setSortBy={setSortBy}
                       sortDirection={sortDirection}
                       setSortDirection={setSortDirection}
                       filterMode={filterMode}
@@ -239,8 +270,8 @@ function App() {
                     />
                     <div className="flex relative gap-6 md:gap-10">
                       <SidebarNav 
-                        activeGroup={activeGroup} 
-                        setActiveGroup={setActiveGroup} 
+                        activeGroup={activeNavItem} 
+                        setActiveGroup={setActiveNavItem} 
                         sortBy={sortBy}
                         sortDirection={sortDirection}
                         isManualScrolling={isManualScrolling}
@@ -250,7 +281,6 @@ function App() {
                       <div className="flex-1 min-w-0 pb-10 pt-6">
                         <StickerGrid 
                           stickers={stickers} 
-                          activeGroup={activeGroup} 
                           onUpdateSticker={updateStickerCount} 
                           sortBy={sortBy}
                           sortDirection={sortDirection}
