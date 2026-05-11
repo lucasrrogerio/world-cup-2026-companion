@@ -16,7 +16,28 @@
     "saved": "保存済み",
     "created_by": "作成者",
     "local_only": "ローカルモード",
-    "sync_to_cloud": "同期する"
+    "local_guest": "ローカルゲスト",
+    "sync_to_cloud": "同期する",
+    "about": "概要",
+    "link_email": "メールをリンク",
+    "save_progress": "進捗を保存",
+    "language": "言語",
+    "theme": "テーマ",
+    "theme_light": "ライト",
+    "theme_dark": "ダーク"
+  },
+  "onboarding": {
+    "city": "市区町村",
+    "state": "都道府県",
+    "city_placeholder": "例：東京",
+    "state_placeholder": "例：東京",
+    "help_community": "コミュニティに貢献！",
+    "edit_location": "場所を変更",
+    "keep_updated": "正確なヒントを受け取るために、場所を最新の状態に保ってください。",
+    "location_info_desc": "居住地を入力すると、地域のだ基づくスマートな交換のヒントを受け取れます。",
+    "save_changes": "変更を保存",
+    "start_collecting": "コレクションを始める",
+    "skip_for_now": "今はスキップ"
   },
   "dashboard": {
     "hero_title": "デジタルアルバムへようこそ",
@@ -46,7 +67,9 @@
     "group_label": "グループ {{name}}",
     "team_badge": "{{code}}",
     "empty_state": "該当するステッカーが見つかりません。",
-    "view_all_alpha": "すべてのステッカーを五十音順で表示しています"
+    "view_all_alpha": "すべてのステッカーを五十音順で表示しています",
+    "no_missing_stickers": "おめでとうございます！この部分のアルバムを完了したようです！",
+    "no_duplicates": "まだ重複するステッカーはありません。"
   },
   "progress": {
     "title": "コレクション進捗",
@@ -137,6 +160,49 @@
     "guest_benefit_title": "ログインのメリット",
     "guest_benefit_sync": "✓ クラウド同期（データ保護）",
     "guest_benefit_insights": "✓ 地域の交換情報を確認",
-    "alert_register": "登録が完了しました！確認が有効な場合はメールを確認してください。"
+    "alert_register": "登録が完了しました！確認が有効な場合はメールを確認してください。",
+    "google_login": "Googleでログイン",
+    "or_use_google": "またはGoogleを使用",
+    "link_google": "Googleでリンク（データを保持）",
+    "login_google": "Googleでログイン（データは移行されない）",
+    "data_kept": "データは安全に保持されます",
+    "save_merge_info": "保存すると、ローカルコレクションがアカウントへの移行準備ができます。進捗を維持し、クラウドバックアップも取得できます。",
+    "link_merge_info": "リンクすると、現在のコレクションがアカウントとマージされます。データを失うことはなく、クラウドバックアップと他のデバイスへのアクセスも得られます。",
+    "local_not_migrated": "警告：ローカルの進捗は移行されません",
+    "existing_account_warning": "既存のアカウントにログインすると、ゲストとしての進捗はこのデバイスに残り、アカウントに参加しません。データを保持するには、次のタブでリンクアカウントを使用してください。",
+    "security_verification": "セキュリティ確認：",
+    "save_account": "アカウントを保存",
+    "link_account": "アカウントをリンク",
+    "email_already_exists_error": "このメールには既にアカウントがあります。アクセスする場合は「既存のアカウントでログイン」を使用してください—注意：現在の進捗はこのデバイスにのみ残ります。",
+    "guest_migration_success": "ゲストの進捗が正常に移行されました！"
+  },
+  "about": {
+    "cloud_title": "すべてクラウドで",
+    "cloud_desc": "コレクションはクラウドで安全に保護されます。どのデバイスからでもアクセスし、進捗を失うことはありません。",
+    "privacy_title": "プライバシーと管理",
+    "privacy_desc": "共有するデータをコントロールできます。個人情報の管理はあなた次第です。",
+    "simplicity_title": "シンプルで高速",
+    "simplicity_desc": "直感的なインターフェースで大切なことに集中：アルバムの完成。",
+    "feature_stickers_title": "ステッカーをマーク",
+    "feature_stickers_desc": "タップ1回で所有マークを追加。追加のタップで重複ステッカーを追加して交換用に inúmerできます。",
+    "feature_nav_title": "素早いナビゲーション",
+    "feature_nav_desc": "サイドバー（モバイルでは下部メニュー）を使用してチームグループ間を素早く移動。",
+    "feature_album_title": "アルバムを追跡",
+    "feature_album_desc": "進捗タブで詳細なグラフを確認し、残りのがわかります。",
+    "feature_filters_title": "スマートフィルター",
+    "feature_filters_desc": "不足分のみまたは重複のみを表示してフィルターし、交換を容易にできます。",
+    "collection_desc": "サッカーワールドカップのステッカーコレクション。クラウドで整理・保護。",
+    "usage_tips": "使い方ヒント"
+  },
+  "footer": {
+    "support_project": "プロジェクト支援",
+    "developed_by": "❤️ 作りました",
+    "author": "Lucas Rogério",
+    "tagline": "WC 2026 Companion • コレクターのため",
+    "copyright": "© 2026 • 全著作権所有"
+  },
+  "support": {
+    "pix_qr_code": "PIX QRコード",
+    "access_via_link": "リンクからアクセス"
   }
 }

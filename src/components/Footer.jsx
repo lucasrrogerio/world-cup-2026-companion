@@ -15,7 +15,7 @@ export default function Footer({ onSupportClick }) {
           className="flex items-center gap-2 px-6 py-3 bg-[var(--accent)] text-[var(--bg-color)] rounded-2xl font-black text-sm shadow-xl hover:scale-105 transition-all group active:scale-95"
         >
           <Coffee size={20} className="group-hover:rotate-12 transition-transform" />
-          Apoiar Projeto
+          {t('footer.support_project')}
         </button>
 
         {/* Social / Links */}
@@ -45,23 +45,23 @@ export default function Footer({ onSupportClick }) {
           className="flex flex-col items-center gap-2 text-center"
         >
           <p className="text-[var(--text-secondary)] text-sm font-medium flex items-center gap-1.5">
-            Desenvolvido com ❤️ por 
+            {t('footer.developed_by')}
             <a
               href="https://github.com/lucasrrogerio"
               target="_blank"
               rel="noopener noreferrer"
               className="text-[var(--accent)] hover:text-[var(--text-primary)] transition-colors font-bold border-b border-[var(--accent)]/30 hover:border-[var(--text-primary)]"
             >
-              Lucas Rogério
+              {t('footer.author')}
             </a>
           </p>
           <p className="text-[10px] text-[var(--text-secondary)]/60 max-w-xs leading-relaxed uppercase tracking-widest font-bold">
-            WC 2026 Companion • Feito para colecionadores
+            {t('footer.tagline')}
           </p>
         </motion.div>
 
         <div className="text-[9px] text-[var(--text-secondary)]/30 uppercase tracking-[0.3em] font-black">
-          &copy; 2026 • Todos os direitos reservados
+          {t('footer.copyright')}
         </div>
       </div>
     </footer>

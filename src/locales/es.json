@@ -16,7 +16,28 @@
     "saved": "Guardado",
     "created_by": "Creado por",
     "local_only": "Modo Local",
-    "sync_to_cloud": "Sincronizar"
+    "local_guest": "Invitado local",
+    "sync_to_cloud": "Sincronizar",
+    "about": "Acerca de",
+    "link_email": "Vincular correo",
+    "save_progress": "Guardar progreso",
+    "language": "Idioma",
+    "theme": "Tema",
+    "theme_light": "Claro",
+    "theme_dark": "Oscuro"
+  },
+  "onboarding": {
+    "city": "Ciudad",
+    "state": "Estado",
+    "city_placeholder": "Ej: Madrid",
+    "state_placeholder": "Ej: M",
+    "help_community": "¡Ayuda a la comunidad!",
+    "edit_location": "Editar Ubicación",
+    "keep_updated": "Mantén tu ubicación actualizada para recibir consejos precisos.",
+    "location_info_desc": "Ingresa tu ubicación para recibir consejos de intercambio inteligentes basados en las figuritas de tu región.",
+    "save_changes": "Guardar Cambios",
+    "start_collecting": "Comenzar a Coleccionar",
+    "skip_for_now": "Omitir por ahora"
   },
   "dashboard": {
     "hero_title": "Bienvenido a tu Álbum Digital",
@@ -46,7 +67,9 @@
     "group_label": "Grupo {{name}}",
     "team_badge": "{{code}}",
     "empty_state": "No se encontraron pegatinas con estos filtros.",
-    "view_all_alpha": "Mostrando todas las pegatinas en orden alfabético"
+    "view_all_alpha": "Mostrando todas las pegatinas en orden alfabético",
+    "no_missing_stickers": "¡Felicitaciones! ¡Parece que completaste esta parte del álbum!",
+    "no_duplicates": "No hay pegatinas repetidas todavía."
   },
   "progress": {
     "title": "Progreso de la Colección",
@@ -137,6 +160,49 @@
     "guest_benefit_title": "¿Por qué entrar?",
     "guest_benefit_sync": "✓ Sincronización en la nube",
     "guest_benefit_insights": "✓ Ver intercambios en tu zona",
-    "alert_register": "¡Registro completado! Revisa tu correo si la confirmación está activa."
+    "alert_register": "¡Registro completado! Revisa tu correo si la confirmación está activa.",
+    "google_login": "Entrar con Google",
+    "or_use_google": "o usa Google",
+    "link_google": "Vincular con Google (mantiene datos)",
+    "login_google": "Entrar con Google (no migra datos)",
+    "data_kept": "Tus datos están seguros",
+    "save_merge_info": "Al guardar, tu colección local está lista para migrar a la cuenta. Mantienes tu progreso y obtienes respaldo en la nube.",
+    "link_merge_info": "Al vincular, tu colección actual se fusiona con la cuenta. No pierdes nada y obtienes respaldo en la nube y acceso en otros dispositivos.",
+    "local_not_migrated": "Advertencia: el progreso local no se migrará",
+    "existing_account_warning": "Al iniciar sesión en una cuenta existente, el progreso realizado como invitado permanecerá en este dispositivo y no se unirá a tu cuenta. Para preservar tus datos, usa Vincular cuenta en la pestaña siguiente.",
+    "security_verification": "Verificación de seguridad:",
+    "save_account": "Guardar cuenta",
+    "link_account": "Vincular cuenta",
+    "email_already_exists_error": "Este correo ya tiene una cuenta. Usa 'Iniciar sesión en cuenta existente' si quieres acceder — pero atención: tu progreso actual permanecerá solo en este dispositivo.",
+    "guest_migration_success": "¡Tu progreso de invitado ha sido migrado con éxito!"
+  },
+  "about": {
+    "cloud_title": "Todo en la Nube",
+    "cloud_desc": "Tu colección está segura en la nube. Accede desde cualquier dispositivo y nunca pierdas tu progreso.",
+    "privacy_title": "Privacidad y Control",
+    "privacy_desc": "Tú controlas qué datos compartir. Tu información personal permanece contigo.",
+    "simplicity_title": "Simple y Rápido",
+    "simplicity_desc": "Interfaz intuitiva para que te enfoques en lo importante: completar tu álbum.",
+    "feature_stickers_title": "Marcar Figuritas",
+    "feature_stickers_desc": "Un toque marca que tienes la figurita. Toques extras agregan figuritas repetidas para intercambio.",
+    "feature_nav_title": "Navegación Rápida",
+    "feature_nav_desc": "Usa la barra lateral (o el menú inferior en el celular) para saltar rápidamente entre grupos de selecciones.",
+    "feature_album_title": "Sigue tu Álbum",
+    "feature_album_desc": "En la pestaña Progreso, ves gráficos detallados y sabes exactamente cuántas figuritas faltan.",
+    "feature_filters_title": "Filtros Inteligentes",
+    "feature_filters_desc": "Puedes filtrar para ver solo las que faltan o solo las tuyas repetidas para facilitar el intercambio.",
+    "collection_desc": "Tu colección de figuritas del Mundial, organizada y protegida en la nube.",
+    "usage_tips": "Consejos de Uso"
+  },
+  "footer": {
+    "support_project": "Apoyar Proyecto",
+    "developed_by": "Hecho con ❤️ por",
+    "author": "Lucas Rogério",
+    "tagline": "WC 2026 Companion • Hecho para coleccionistas",
+    "copyright": "© 2026 • Todos los derechos reservados"
+  },
+  "support": {
+    "pix_qr_code": "Código QR PIX",
+    "access_via_link": "Acceder por enlace"
   }
 }

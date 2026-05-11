@@ -1,8 +1,10 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Coffee, ExternalLink } from 'lucide-react';
+import { useLanguage } from '../contexts/LanguageContext';
 
 export default function SupportModal({ isOpen, onClose }) {
+  const { t } = useLanguage();
   const supportUrl = "https://pixgg.com/lucasrogerio";
   const displayUrl = "pixgg.com/lucasrogerio";
 
@@ -54,7 +56,7 @@ export default function SupportModal({ isOpen, onClose }) {
               <div className="w-44 h-44 flex items-center justify-center rounded-xl overflow-hidden">
                 <img 
                   src="/pix-qr.png" 
-                  alt="PIX QR Code"
+                  alt={t('support.pix_qr_code')}
                   className="w-full h-full object-contain scale-110"
                 />
               </div>
@@ -66,7 +68,7 @@ export default function SupportModal({ isOpen, onClose }) {
                 className="w-full bg-[var(--accent)] text-[var(--bg-color)] font-black py-4 rounded-xl shadow-lg hover:opacity-90 transition-all active:scale-95 flex items-center justify-center gap-2 text-base"
               >
                 <ExternalLink size={20} />
-                Acessar via Link
+                {t('support.access_via_link')}
               </button>
 
               <button 

@@ -16,7 +16,28 @@
     "saved": "Saved",
     "created_by": "Created by",
     "local_only": "Local Mode",
-    "sync_to_cloud": "Sync Now"
+    "local_guest": "Local Guest",
+    "sync_to_cloud": "Sync Now",
+    "about": "About",
+    "link_email": "Link Email",
+    "save_progress": "Save Progress",
+    "language": "Language",
+    "theme": "Theme",
+    "theme_light": "Light",
+    "theme_dark": "Dark"
+  },
+  "onboarding": {
+    "city": "City",
+    "state": "State",
+    "city_placeholder": "e.g. New York",
+    "state_placeholder": "e.g. NY",
+    "help_community": "Help the community!",
+    "edit_location": "Edit Location",
+    "keep_updated": "Keep your location updated to receive accurate tips.",
+    "location_info_desc": "Enter your location to receive smart trade tips based on stickers in your region.",
+    "save_changes": "Save Changes",
+    "start_collecting": "Start Collecting",
+    "skip_for_now": "Skip for now"
   },
   "dashboard": {
     "hero_title": "Welcome to your Digital Album",
@@ -46,7 +67,9 @@
     "group_label": "Group {{name}}",
     "team_badge": "{{code}}",
     "empty_state": "No stickers found with these filters.",
-    "view_all_alpha": "Displaying all stickers in alphabetical order"
+    "view_all_alpha": "Displaying all stickers in alphabetical order",
+    "no_missing_stickers": "Congratulations! Looks like you completed this part of the album!",
+    "no_duplicates": "No duplicate stickers yet."
   },
   "progress": {
     "title": "Collection Progress",
@@ -138,6 +161,48 @@
     "guest_benefit_sync": "✓ Cloud Sync (Safe data)",
     "guest_benefit_insights": "✓ See swaps in your area",
     "alert_register": "Registration complete! Check your email if confirmation is active.",
-    "google_login": "Login with Google"
+    "google_login": "Login with Google",
+    "or_use_google": "or use Google",
+    "link_google": "Link with Google (keeps data)",
+    "login_google": "Login with Google (won't migrate data)",
+    "data_kept": "Your data is kept safe",
+    "save_merge_info": "When saving, your local collection is ready to migrate to your account. You keep your progress and get cloud backup.",
+    "link_merge_info": "When linking, your current collection is merged with your account. You lose nothing — and get cloud backup and access on other devices.",
+    "local_not_migrated": "Warning: local progress will not be migrated",
+    "existing_account_warning": "When logging into an existing account, progress made as a guest will stay on this device and won't be joined to your account. To preserve your data, use Link Account in the next tab.",
+    "security_verification": "Security verification:",
+    "save_account": "Save account",
+    "link_account": "Link account",
+    "email_already_exists_error": "This email already has an account. Use 'Login to existing account' if you want to access it — but warning: your current progress will stay only on this device.",
+    "guest_migration_success": "Your guest progress has been migrated successfully!"
+  },
+  "about": {
+    "cloud_title": "Everything in the Cloud",
+    "cloud_desc": "Your collection is safe in the cloud. Access from any device and never lose your progress again.",
+    "privacy_title": "Privacy and Control",
+    "privacy_desc": "You control what data to share. Your personal information stays with you.",
+    "simplicity_title": "Simple and Fast",
+    "simplicity_desc": "Intuitive interface so you can focus on what matters: completing your album.",
+    "feature_stickers_title": "Mark Stickers",
+    "feature_stickers_desc": "One tap marks that you have the sticker. Extra taps add duplicate stickers for trading.",
+    "feature_nav_title": "Quick Navigation",
+    "feature_nav_desc": "Use the sidebar (or bottom menu on mobile) to quickly jump between team groups.",
+    "feature_album_title": "Track Your Album",
+    "feature_album_desc": "In the Progress tab, you see detailed charts and know exactly how many stickers are missing.",
+    "feature_filters_title": "Smart Filters",
+    "feature_filters_desc": "You can filter to see only missing or only your duplicates to make trading easier.",
+    "collection_desc": "Your World Cup sticker collection, organized and protected in the cloud.",
+    "usage_tips": "Usage Tips"
+  },
+  "footer": {
+    "support_project": "Support Project",
+    "developed_by": "Made with ❤️ by",
+    "author": "Lucas Rogério",
+    "tagline": "WC 2026 Companion • Made for collectors",
+    "copyright": "© 2026 • All rights reserved"
+  },
+  "support": {
+    "pix_qr_code": "PIX QR Code",
+    "access_via_link": "Access via Link"
   }
 }

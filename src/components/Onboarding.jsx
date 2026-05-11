@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { MapPin, ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useLanguage } from '../contexts/LanguageContext';
 
 export default function Onboarding({ onComplete, onSkip, initialData }) {
+  const { t } = useLanguage();
   const [city, setCity] = useState(initialData?.city || '');
   const [state, setState] = useState(initialData?.state || '');
   const isEditing = !!initialData;
@@ -24,34 +26,34 @@ export default function Onboarding({ onComplete, onSkip, initialData }) {
         </div>
         
         <h2 className="text-2xl font-bold text-center mb-2 text-[var(--text-primary)]">
-          {isEditing ? "Editar Localização" : "Ajude a comunidade!"}
+          {isEditing ? t('onboarding.edit_location') : t('onboarding.help_community')}
         </h2>
         <p className="text-[var(--text-secondary)] text-center mb-8">
           {isEditing 
-            ? "Mantenha sua localização atualizada para receber dicas precisas." 
-            : "Informe sua localização para receber dicas de troca inteligentes baseadas nas figurinhas da sua região."}
+            ? t('onboarding.keep_updated') 
+            : t('onboarding.location_info_desc')}
         </p>
         
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm text-[var(--text-secondary)] mb-1">Cidade</label>
+            <label className="block text-sm text-[var(--text-secondary)] mb-1">{t('onboarding.city')}</label>
             <input 
               type="text" 
               value={city}
               onChange={(e) => setCity(e.target.value)}
-              placeholder="Ex: Recife"
+              placeholder={t('onboarding.city_placeholder')}
               className="w-full bg-[var(--bg-color)] border border-[var(--card-border)] rounded-xl p-4 text-[var(--text-primary)] focus:border-[var(--accent)] outline-none transition-all"
               required
             />
           </div>
           
           <div>
-            <label className="block text-sm text-[var(--text-secondary)] mb-1">Estado (UF)</label>
+            <label className="block text-sm text-[var(--text-secondary)] mb-1">{t('onboarding.state')}</label>
             <input 
               type="text" 
               value={state}
               onChange={(e) => setState(e.target.value)}
-              placeholder="Ex: PE"
+              placeholder={t('onboarding.state_placeholder')}
               maxLength={2}
               className="w-full bg-[var(--bg-color)] border border-[var(--card-border)] rounded-xl p-4 text-[var(--text-primary)] focus:border-[var(--accent)] outline-none transition-all uppercase"
               required
@@ -62,7 +64,7 @@ export default function Onboarding({ onComplete, onSkip, initialData }) {
             type="submit"
             className="w-full bg-gradient-to-r from-[var(--accent)] to-[#8A2BE2] text-white font-bold py-4 rounded-2xl flex items-center justify-center gap-2 hover:opacity-90 transition-opacity mt-6 shadow-lg shadow-purple-900/20"
           >
-            {isEditing ? "Salvar Alterações" : "Começar a Colecionar"}
+            {isEditing ? t('onboarding.save_changes') : t('onboarding.start_collecting')}
             <ArrowRight size={20} />
           </button>
         </form>
@@ -71,7 +73,7 @@ export default function Onboarding({ onComplete, onSkip, initialData }) {
           onClick={onSkip}
           className="w-full text-[var(--text-secondary)] text-sm mt-4 hover:text-[var(--text-primary)] transition-colors"
         >
-          Pular por enquanto
+          {t('onboarding.skip_for_now')}
         </button>
       </motion.div>
     </div>

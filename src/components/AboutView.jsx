@@ -41,7 +41,7 @@ export default function AboutView({ user }) {
           className="text-[var(--text-secondary)] text-lg max-w-2xl mx-auto"
           variants={itemVariants}
         >
-          Sua coleção de figurinhas da Copa do Mundo, organizada e protegida na nuvem.
+          {t('about.collection_desc')}
         </motion.p>
       </section>
 
@@ -54,9 +54,9 @@ export default function AboutView({ user }) {
           <div className="w-12 h-12 bg-[var(--accent)]/10 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
             <Cloud className="text-[var(--accent)]" />
           </div>
-          <h3 className="text-lg font-bold mb-2">Tudo na Nuvem</h3>
+          <h3 className="text-lg font-bold mb-2">{t('about.cloud_title')}</h3>
           <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
-            Suas figurinhas são salvas automaticamente. Você nunca mais vai perder seu progresso se trocar de celular ou limpar o histórico.
+            {t('about.cloud_desc')}
           </p>
         </motion.div>
 
@@ -67,9 +67,9 @@ export default function AboutView({ user }) {
           <div className="w-12 h-12 bg-[var(--brand-blue)]/10 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
             <Shield className="text-[var(--brand-blue)]" />
           </div>
-          <h3 className="text-lg font-bold mb-2">Privacidade e Controle</h3>
+          <h3 className="text-lg font-bold mb-2">{t('about.privacy_title')}</h3>
           <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
-            Você decide como quer usar. Comece agora mesmo como visitante e, se quiser, vincule um e-mail depois para ter um backup extra.
+            {t('about.privacy_desc')}
           </p>
         </motion.div>
 
@@ -80,9 +80,9 @@ export default function AboutView({ user }) {
           <div className="w-12 h-12 bg-[var(--accent)]/10 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
             <Zap className="text-[var(--accent)]" />
           </div>
-          <h3 className="text-lg font-bold mb-2">Simples e Rápido</h3>
+          <h3 className="text-lg font-bold mb-2">{t('about.simplicity_title')}</h3>
           <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
-            O aplicativo foi feito para ser leve e carregar instantaneamente, para que você foque apenas no que importa: completar seu álbum.
+            {t('about.simplicity_desc')}
           </p>
         </motion.div>
       </div>
@@ -93,7 +93,7 @@ export default function AboutView({ user }) {
           className="text-2xl font-black text-center"
           variants={itemVariants}
         >
-          Dicas de Uso
+          {t('about.usage_tips')}
         </motion.h2>
         
         <div className="grid md:grid-cols-2 gap-8">
@@ -101,9 +101,9 @@ export default function AboutView({ user }) {
             <div className="w-10 h-10 rounded-xl bg-[var(--accent)]/10 flex items-center justify-center shrink-0">
               <Zap className="text-[var(--accent)]" size={20} />
             </div>
-            <div className="space-y-1">
-              <h4 className="font-bold">Marcar Figurinhas</h4>
-              <p className="text-sm text-[var(--text-secondary)]">Um toque marca que você já tem a figurinha. Toques extras adicionam figurinhas repetidas para troca.</p>
+<div className="space-y-1">
+              <h4 className="font-bold">{t('about.feature_stickers_title')}</h4>
+              <p className="text-sm text-[var(--text-secondary)]">{t('about.feature_stickers_desc')}</p>
             </div>
           </motion.div>
 
@@ -112,8 +112,8 @@ export default function AboutView({ user }) {
               <Globe size={20} className="text-[var(--brand-blue)]" />
             </div>
             <div className="space-y-1">
-              <h4 className="font-bold">Navegação Rápida</h4>
-              <p className="text-sm text-[var(--text-secondary)]">Use a barra lateral (ou o menu inferior no celular) para pular rapidamente entre os grupos de seleções.</p>
+              <h4 className="font-bold">{t('about.feature_nav_title')}</h4>
+              <p className="text-sm text-[var(--text-secondary)]">{t('about.feature_nav_desc')}</p>
             </div>
           </motion.div>
 
@@ -122,8 +122,8 @@ export default function AboutView({ user }) {
               <Database size={20} className="text-[var(--accent)]" />
             </div>
             <div className="space-y-1">
-              <h4 className="font-bold">Acompanhe seu Álbum</h4>
-              <p className="text-sm text-[var(--text-secondary)]">Na aba "Progresso", você vê gráficos detalhados e sabe exatamente quantas faltam para completar.</p>
+              <h4 className="font-bold">{t('about.feature_album_title')}</h4>
+              <p className="text-sm text-[var(--text-secondary)]">{t('about.feature_album_desc')}</p>
             </div>
           </motion.div>
 
@@ -132,11 +132,12 @@ export default function AboutView({ user }) {
               <Shield size={20} className="text-[var(--brand-blue)]" />
             </div>
             <div className="space-y-1">
-              <h4 className="font-bold">Filtros Inteligentes</h4>
-              <p className="text-sm text-[var(--text-secondary)]">Você pode filtrar para ver apenas as que faltam ou apenas as suas repetidas para facilitar a troca.</p>
+              <h4 className="font-bold">{t('about.feature_filters_title')}</h4>
+              <p className="text-sm text-[var(--text-secondary)]">{t('about.feature_filters_desc')}</p>
             </div>
           </motion.div>
-        </div>
+
+</div>
       </section>
 
       <div className="pb-12" />

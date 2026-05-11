@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useLanguage } from './contexts/LanguageContext';
 import Header from './components/Header';
 import Navigation from './components/Navigation';
 import Dashboard from './components/Dashboard';
@@ -18,6 +19,7 @@ import { TEAMS_DATA } from './data/stickers';
 import { buildGroupItems, buildAlphaItems, getValidItemForMode } from './utils/navigationState';
 
 function App() {
+  const { t } = useLanguage();
   const [user, setUser] = useState(null);
   const [isLocalGuestMode, setIsLocalGuestMode] = useState(false);
   const [activeGroupItem, setActiveGroupItem] = useState('FWC');
@@ -138,7 +140,7 @@ function App() {
     });
 
     const handleMigrationComplete = () => {
-      setMigrationMessage("Seu progresso de visitante foi migrado com sucesso!");
+      setMigrationMessage(t('auth.guest_migration_success'));
       setTimeout(() => setMigrationMessage(null), 5000);
     };
 
@@ -350,9 +352,6 @@ function App() {
         <MobileNav
           activeView={activeView}
           setActiveView={setActiveView}
-          user={appUser}
-          profile={profile}
-          onProfileClick={() => setShowOnboarding(true)}
         />
       )}
 

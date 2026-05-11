@@ -25,8 +25,8 @@ export default function StickerGrid({ stickers, onUpdateSticker, sortBy, sortDir
           </h3>
           <p className="text-[var(--text-secondary)]">
             {filterMode === 'missing' 
-              ? "Parabéns! Parece que você completou essa parte do álbum!"
-              : "Nenhuma figurinha repetida por enquanto."}
+              ? t('album.no_missing_stickers')
+              : t('album.no_duplicates')}
           </p>
         </motion.div>
       </div>

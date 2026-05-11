@@ -61,7 +61,7 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess, onDevGuestBy
       onClose();
     } catch (err) {
       if (isAnonymous && anonymousMode === 'link' && (err.message?.includes('already registered') || err.message?.includes('already exists'))) {
-        setError('Este e-mail já tem uma conta. Use "Entrar em conta existente" se quiser acessar ela — mas atenção: seu progresso atual ficará apenas neste aparelho.');
+        setError(t('auth.email_already_exists_error'));
       } else {
         setError(err.message);
       }
@@ -169,7 +169,7 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess, onDevGuestBy
                     }`}
                   >
                     <Link size={14} />
-                    {isLocalGuest ? 'Salvar conta' : 'Vincular conta'}
+                    {isLocalGuest ? t('auth.save_account') : t('auth.link_account')}
                   </button>
                   <button
                     type="button"
@@ -196,12 +196,12 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess, onDevGuestBy
                     >
                       <div className="flex items-center gap-2 mb-2">
                         <CheckCircle size={15} className="text-emerald-400 shrink-0" />
-                        <span className="text-emerald-400 text-xs font-black uppercase tracking-widest">Seus dados são mantidos</span>
+                        <span className="text-emerald-400 text-xs font-black uppercase tracking-widest">{t('auth.data_kept')}</span>
                       </div>
                       <p className="text-[11px] text-[var(--text-secondary)] leading-relaxed">
                         {isLocalGuest
-                          ? <>Ao salvar, sua coleção local fica <b className="text-[var(--text-primary)]">pronta para migrar para a conta</b>. Você mantém o progresso e ainda ganha backup em nuvem.</>
-                          : <>Ao vincular, sua coleção atual é <b className="text-[var(--text-primary)]">mesclada à conta</b>. Você não perde nada — e ainda ganha backup em nuvem e acesso em outros aparelhos.</>}
+                          ? t('auth.save_merge_info')
+                          : t('auth.link_merge_info')}
                       </p>
                     </motion.div>
                   ) : (
@@ -214,10 +214,10 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess, onDevGuestBy
                     >
                       <div className="flex items-center gap-2 mb-2">
                         <AlertTriangle size={15} className="text-amber-400 shrink-0" />
-                        <span className="text-amber-400 text-xs font-black uppercase tracking-widest">Atenção: progresso local não será migrado</span>
+                        <span className="text-amber-400 text-xs font-black uppercase tracking-widest">{t('auth.local_not_migrated')}</span>
                       </div>
                       <p className="text-[11px] text-[var(--text-secondary)] leading-relaxed">
-                        Ao entrar em uma conta existente, o progresso feito como visitante <b className="text-amber-300">ficará apenas neste aparelho</b> e não será unido à sua conta. Se quiser preservar seus dados, use <b className="text-[var(--text-primary)]">Vincular conta</b> na aba ao lado.
+                        {t('auth.existing_account_warning')}
                       </p>
                     </motion.div>
                   )}
@@ -376,7 +376,7 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess, onDevGuestBy
                     animate={{ opacity: 1, y: 0 }}
                     className="flex flex-col items-center gap-2"
                   >
-                    <p className="text-[10px] text-[var(--text-secondary)]">Verificação de segurança:</p>
+                    <p className="text-[10px] text-[var(--text-secondary)]">{t('auth.security_verification')}</p>
                     <div className="flex justify-center scale-90 origin-top">
                       <Turnstile
                         siteKey={import.meta.env.VITE_CLOUDFLARE_TURNSTILE_SITE_KEY}
@@ -392,7 +392,7 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess, onDevGuestBy
             <div className="mt-5 space-y-3">
               <div className="relative">
                 <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-[var(--card-border)]"></div></div>
-                <div className="relative flex justify-center text-xs uppercase"><span className="bg-[var(--card-bg)] px-2 text-[var(--text-secondary)]">ou use o Google</span></div>
+                <div className="relative flex justify-center text-xs uppercase"><span className="bg-[var(--card-bg)] px-2 text-[var(--text-secondary)]">{t('auth.or_use_google')}</span></div>
               </div>
               <button
                 onClick={handleGoogleLogin}
@@ -406,7 +406,7 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess, onDevGuestBy
                   <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/>
                   <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
                 </svg>
-                {anonymousMode === 'link' ? 'Vincular com Google (mantém dados)' : 'Entrar com Google (sem migrar dados)'}
+                {anonymousMode === 'link' ? t('auth.link_google') : t('auth.login_google')}
               </button>
             </div>
           )}

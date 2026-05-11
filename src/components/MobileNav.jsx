@@ -1,23 +1,15 @@
-import { BookOpen, BarChart2, Globe, User } from 'lucide-react';
+import { BookOpen, BarChart2, Globe } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useLanguage } from '../contexts/LanguageContext';
 
-export default function MobileNav({ activeView, setActiveView, user, profile, onProfileClick }) {
+export default function MobileNav({ activeView, setActiveView }) {
   const { t } = useLanguage();
-  const isAnonymous = user?.is_anonymous;
-  const username = user?.email?.split('@')[0];
 
-  const baseTabs = [
-    { id: 'album', label: t('common.album'), icon: BookOpen },
+  const tabs = [
     { id: 'analytics', label: t('common.progress'), icon: BarChart2 },
-    { id: 'about', label: 'Sobre', icon: Globe },
+    { id: 'album', label: t('common.album'), icon: BookOpen },
+    { id: 'about', label: t('common.about'), icon: Globe },
   ];
-
-  const profileTab = user && !isAnonymous
-    ? [{ id: 'profile', label: username, icon: User, action: onProfileClick }]
-    : [];
-
-  const tabs = [...baseTabs, ...profileTab];
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 bg-[var(--nav-bg)] border-t border-[var(--card-border)] z-50 md:hidden pb-safe backdrop-blur-md">

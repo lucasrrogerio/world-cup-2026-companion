@@ -143,7 +143,7 @@ export default function SidebarNav({
             <div className="bg-[var(--accent)]/10 p-1.5 rounded-lg group-hover:scale-110 transition-transform">
               <Coffee size={14} />
             </div>
-            Apoiar Projeto
+            {t('footer.support_project')}
           </button>
         </li>
       </ul>

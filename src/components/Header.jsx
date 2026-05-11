@@ -78,7 +78,7 @@ export default function Header({
             {!isCloudUser && (
               <div className="flex items-center gap-2 px-3 py-1 bg-[var(--accent)]/10 rounded-full border border-[var(--accent)]/20">
                 <Database className="text-[var(--accent)]" size={14} />
-                <span className="text-[10px] text-[var(--accent)] font-bold uppercase tracking-widest hidden xs:block">{isLocalGuest ? 'Visitante local' : (t('common.local_only') || 'Offline')}</span>
+                <span className="text-[10px] text-[var(--accent)] font-bold uppercase tracking-widest hidden xs:block">{isLocalGuest ? t('common.local_guest') : (t('common.local_only') || 'Offline')}</span>
               </div>
             )}
 
@@ -112,7 +112,7 @@ export default function Header({
                     : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-color)]'
                   }`}
               >
-                Sobre
+                {t('common.about')}
               </button>
             </nav>
           )}
@@ -200,21 +200,21 @@ export default function Header({
                 )}
                 
                  {isAnonymous ? (
-                   <button
-                     onClick={onLoginClick}
-                     className="flex items-center gap-2 bg-[var(--accent)] text-[var(--bg-color)] px-3 py-2 rounded-xl text-sm font-bold shadow-lg transition-all active:scale-95"
-                   >
+<button
+                      onClick={onLoginClick}
+                      className="flex items-center gap-2 bg-[var(--accent)] text-[var(--bg-color)] px-3 py-2 rounded-xl text-sm font-bold shadow-lg transition-all active:scale-95"
+                    >
+                       <Cloud size={16} />
+                       <span className="hidden sm:inline">{t('common.link_email')}</span>
+                    </button>
+                  ) : isLocalGuest ? (
+                    <button
+                      onClick={onLoginClick}
+                      className="flex items-center gap-2 bg-[var(--accent)] text-[var(--bg-color)] px-3 py-2 rounded-xl text-sm font-bold shadow-lg transition-all active:scale-95"
+                    >
                       <Cloud size={16} />
-                      <span className="hidden sm:inline">Vincular E-mail</span>
-                   </button>
-                 ) : isLocalGuest ? (
-                   <button
-                     onClick={onLoginClick}
-                     className="flex items-center gap-2 bg-[var(--accent)] text-[var(--bg-color)] px-3 py-2 rounded-xl text-sm font-bold shadow-lg transition-all active:scale-95"
-                   >
-                     <Cloud size={16} />
-                     <span className="hidden sm:inline">Salvar progresso</span>
-                   </button>
+                      <span className="hidden sm:inline">{t('common.save_progress')}</span>
+                    </button>
                  ) : (
                   <button
                     onClick={onLogout}
@@ -250,7 +250,7 @@ export default function Header({
                 <div className="flex flex-col gap-4">
                   {/* Language in mobile menu */}
                   <div className="flex items-center justify-between">
-                    <span className="text-sm text-[var(--text-secondary)]">Idioma</span>
+                    <span className="text-sm text-[var(--text-secondary)]">{t('common.language')}</span>
                     <div className="flex gap-2">
                       {languages.map((lang) => (
                         <button
@@ -277,10 +277,10 @@ export default function Header({
                     }}
                     className="flex items-center justify-between p-3 rounded-xl bg-[var(--card-bg)] border border-[var(--card-border)]"
                   >
-                    <span className="text-sm text-[var(--text-secondary)]">Tema</span>
+                    <span className="text-sm text-[var(--text-secondary)]">{t('common.theme')}</span>
                     <div className="flex items-center gap-2 text-[var(--text-primary)]">
                       {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
-                      <span className="text-sm font-medium">{theme === 'dark' ? 'Claro' : 'Escuro'}</span>
+                      <span className="text-sm font-medium">{theme === 'dark' ? t('common.theme_light') : t('common.theme_dark')}</span>
                     </div>
                   </button>
 
@@ -322,7 +322,7 @@ export default function Header({
                           className="flex items-center justify-center gap-2 bg-[var(--accent)] text-[var(--bg-color)] px-4 py-3 rounded-xl font-bold"
                         >
                           <Cloud size={18} />
-                          Salvar progresso
+                          {t('common.save_progress')}
                         </button>
                       ) : (
                         <button

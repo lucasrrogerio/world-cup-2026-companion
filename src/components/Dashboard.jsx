@@ -54,7 +54,7 @@ export default function Dashboard({ profile, onLoginClick, onSupportClick }) {
             onClick={onSupportClick}
             className="bg-transparent border-2 border-[var(--card-border)] hover:border-[var(--accent)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] font-bold px-8 py-5 rounded-2xl transition-all uppercase tracking-wider w-full sm:w-auto"
           >
-            ☕ Apoiar Projeto
+            ☕ {t('footer.support_project')}
           </motion.button>
         </div>
       </motion.div>

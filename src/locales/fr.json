@@ -16,7 +16,28 @@
     "saved": "Enregistré",
     "created_by": "Créé par",
     "local_only": "Mode Local",
-    "sync_to_cloud": "Synchroniser"
+    "local_guest": "Invité local",
+    "sync_to_cloud": "Synchroniser",
+    "about": "À propos",
+    "link_email": "Associer un e-mail",
+    "save_progress": "Sauvegarder la progression",
+    "language": "Langue",
+    "theme": "Thème",
+    "theme_light": "Clair",
+    "theme_dark": "Sombre"
+  },
+  "onboarding": {
+    "city": "Ville",
+    "state": "Région",
+    "city_placeholder": "Ex: Paris",
+    "state_placeholder": "Ex: IDF",
+    "help_community": "Aidez la communauté !",
+    "edit_location": "Modifier l'emplacement",
+    "keep_updated": "Gardez votre emplacement à jour pour recevoir des conseils précis.",
+    "location_info_desc": "Entrez votre emplacement pour recevoir des conseils d'échange intelligents basés sur les autocollants de votre région.",
+    "save_changes": "Enregistrer les modifications",
+    "start_collecting": "Commencer à collecter",
+    "skip_for_now": "Passer pour l'instant"
   },
   "dashboard": {
     "hero_title": "Bienvenue sur votre Album Digital",
@@ -46,7 +67,9 @@
     "group_label": "Groupe {{name}}",
     "team_badge": "{{code}}",
     "empty_state": "Aucun autocollant trouvé avec ces filtres.",
-    "view_all_alpha": "Affichage de tous les autocollants par ordre alphabétique"
+    "view_all_alpha": "Affichage de tous les autocollants par ordre alphabétique",
+    "no_missing_stickers": "Félicitations ! On dirait que vous avez terminé cette partie de l'album !",
+    "no_duplicates": "Pas d'autocollants en double pour le moment."
   },
   "progress": {
     "title": "Progression de la Collection",
@@ -137,6 +160,49 @@
     "guest_benefit_title": "Pourquoi s'identifier ?",
     "guest_benefit_sync": "✓ Synchro Cloud (sécurité)",
     "guest_benefit_insights": "✓ Voir les échanges locaux",
-    "alert_register": "Inscription terminée ! Vérifiez votre e-mail si la confirmation est active."
+    "alert_register": "Inscription terminée ! Vérifiez votre e-mail si la confirmation est active.",
+    "google_login": "Se connecter avec Google",
+    "or_use_google": "ou utiliser Google",
+    "link_google": "Associer avec Google (conserve les données)",
+    "login_google": "Se connecter avec Google (ne migrate pas les données)",
+    "data_kept": "Vos données sont conservées",
+    "save_merge_info": "En sauvegardant, votre collection locale est prête à migrer vers votre compte. Vous gardez votre progression et avez un backup cloud.",
+    "link_merge_info": "En liant, votre collection actuelle est fusionnée avec le compte. Vous ne perdez rien et avez un backup cloud et l'accès sur d'autres appareils.",
+    "local_not_migrated": "Attention : la progression locale ne sera pas migrée",
+    "existing_account_warning": "En entrant dans un compte existant, la progression faite en tant qu'invité restera sur cet appareil et ne sera pas jointe à votre compte. Pour préserver vos données, utilisez Associer le compte dans l'onglet suivant.",
+    "security_verification": "Vérification de sécurité :",
+    "save_account": "Enregistrer le compte",
+    "link_account": "Associer le compte",
+    "email_already_exists_error": "Cet e-mail a déjà un compte. Utilisez 'Se connecter à un compte existant' si vous voulez y accéder — mais attention : votre progression actuelle restera uniquement sur cet appareil.",
+    "guest_migration_success": "Votre progression en tant qu'invité a été migrée avec succès !"
+  },
+  "about": {
+    "cloud_title": "Tout dans le Cloud",
+    "cloud_desc": "Votre collection est en sécurité dans le cloud. Accédez depuis n'importe quel appareil et ne perdez jamais votre progression.",
+    "privacy_title": "Confidentialité et Contrôle",
+    "privacy_desc": "Vous contrôlez les données à partager. Vos informations personnelles restent avec vous.",
+    "simplicity_title": "Simple et Rapide",
+    "simplicity_desc": "Interface intuitive pour vous concentrer sur l'essentiel : compléter votre album.",
+    "feature_stickers_title": "Marquer les Autocollants",
+    "feature_stickers_desc": "Un taps indique que vous avez l'autocollant. Des taps supplémentaires ajoutent des autocollants en double pour l'échange.",
+    "feature_nav_title": "Navigation Rapide",
+    "feature_nav_desc": "Utilisez la barre latérale (ou le menu inférieur sur mobile) pour sauter rapidement entre les groupes de sélections.",
+    "feature_album_title": "Suivez Votre Album",
+    "feature_album_desc": "Dans l'onglet Progression, vous voyez des graphiques détaillés et savez exactement combien il manque.",
+    "feature_filters_title": "Filtres Intelligents",
+    "feature_filters_desc": "Vous pouvez filtrer pour voir uniquement les manquants ou uniquement vos doublons pour faciliter les échanges.",
+    "collection_desc": "Votre collection de stickers de la Coupe du Monde, organisée et protégée dans le cloud.",
+    "usage_tips": "Conseils d'Utilisation"
+  },
+  "footer": {
+    "support_project": "Soutenir le Projet",
+    "developed_by": "Fait avec ❤️ par",
+    "author": "Lucas Rogério",
+    "tagline": "WC 2026 Companion • Fait pour les collectionneurs",
+    "copyright": "© 2026 • Tous droits réservés"
+  },
+  "support": {
+    "pix_qr_code": "Code QR PIX",
+    "access_via_link": "Accéder par lien"
   }
 }
