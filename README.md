@@ -55,4 +55,4 @@ Uma aplicação web moderna e intuitiva para gerenciar sua coleção de figurinh
 Este projeto é um "companion" não oficial e não possui vínculo com a Panini ou FIFA. Consulte o arquivo [LICENSE](LICENSE) para mais detalhes sobre o uso do código.
 
 ---
-Criado com ❤️ por [Seu Nome/User]
+ Criado com ❤️ por [Lucas Rogério](https://github.com/lucasrrogerio)
